@@ -1,5 +1,9 @@
 # GitHub Repository Module
 
+[![Build Status](https://travis-ci.com/Flaconi/terraform-github-repository.svg?branch=master)](https://travis-ci.com/Flaconi/terraform-github-repository)
+[![Tag](https://img.shields.io/github/tag/Flaconi/terraform-github-repository.svg)](https://github.com/Flaconi/terraform-github-repository/releases)
+[![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+
 This Terraform module manages GitHub repositories. It's a backport from https://github.com/innovationnorway/terraform-github-repository which was written for 0.12. As 0.11 does not have dynamic blocks
 this module will only allow branch protection for one branch, the default branch ( defaults to master ) 
 
@@ -156,3 +160,10 @@ module "example_repo" {
 | http\_clone\_url | URL that can be provided to "git clone" to clone the repository via HTTPS. |
 | name | The name of the repository. |
 | ssh\_clone\_url | URL that can be provided to "git clone" to clone the repository via SSH. |
+
+
+## License
+
+[MIT](LICENSE)
+
+Copyright (c) 2018 [Flaconi GmbH](https://github.com/Flaconi)
