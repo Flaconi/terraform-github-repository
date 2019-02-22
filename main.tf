@@ -1,3 +1,8 @@
+#
+# This code was adapted from the `terraform-aws-ecs-container-definition` module from Innovation Norway, on 2019-02-20.
+# Available here: https://github.com/innovationnorway/terraform-github-repository
+#
+
 resource "github_repository" "main" {
   name = "${var.name}"
 
@@ -17,8 +22,6 @@ resource "github_repository" "main" {
 
   gitignore_template = "${var.gitignore_template}"
   license_template   = "${var.license_template}"
-
-  default_branch = "${var.default_branch}"
 
   archived = "${var.archived}"
 }
@@ -62,11 +65,7 @@ resource "github_branch_protection" "main" {
   }
 
   required_pull_request_reviews {
-    dismiss_stale_reviews = "${var.default_branch_protection_dismiss_stale_reviews}"
-    dismissal_teams       = ["${var.default_branch_protection_dismissal_teams}"]
-  }
-
-  restrictions {
-    teams = ["${var.teams}"]
+    require_code_owner_reviews = "${var.default_branch_protection_require_code_owner_reviews}"
+    dismiss_stale_reviews      = "${var.default_branch_protection_dismiss_stale_reviews}"
   }
 }

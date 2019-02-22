@@ -99,7 +99,7 @@ variable "gitignore_template" {
 variable "default_branch" {
   type = "string"
 
-  default = "null"
+  default = "master"
 
   description = "The name of the default branch of the repository. NOTE: This can only be set after a repository has already been created, and after a correct reference has been created for the target branch inside the repository."
 }
@@ -146,12 +146,6 @@ variable "default_branch_protection_dismiss_stale_reviews" {
   description = "Dismiss approved reviews automatically when a new commit is pushed. Defaults to false."
   type        = "string"
   default     = "true"
-}
-
-variable "default_branch_protection_dismissal_teams" {
-  description = "The list of team slugs with dismissal access. Always use slug of the team, not its name. Each team already has to have access to the repository."
-  type        = "list"
-  default     = []
 }
 
 variable "default_branch_protection_require_code_owner_reviews" {
