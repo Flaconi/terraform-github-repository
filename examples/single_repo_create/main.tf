@@ -1,9 +1,11 @@
 variable "github_token" {
-  type = "string"
+  type    = "string"
+  default = ""
 }
 
 variable "github_organization" {
-  type = "string"
+  type    = "string"
+  default = ""
 }
 
 provider "github" {
@@ -29,7 +31,7 @@ locals {
 }
 
 module "example_repo" {
-  source = "../"
+  source = "../../"
 
   name = "example-test"
 
