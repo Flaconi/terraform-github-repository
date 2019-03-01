@@ -3,6 +3,25 @@ variable "name" {
   description = "The name of the repository."
 }
 
+variable "namespace" {
+  description = "Namespace (e.g. `ops`"
+}
+
+variable "stage" {
+  description = "Stage (e.g. `prod`, `dev`, `staging`)"
+}
+
+variable "enabled" {
+  description = "Set to false to prevent the module from creating any resources"
+  default     = "true"
+}
+
+variable "use_fullname" {
+  type        = "string"
+  default     = "true"
+  description = "Set 'true' to use `namespace-stage-name` for ecr repository name, else `name`"
+}
+
 variable "description" {
   type        = "string"
   default     = ""
@@ -145,4 +164,15 @@ variable "topics" {
   type        = "list"
   default     = []
   description = "A list of topics to add to the repository."
+}
+
+variable "attributes" {
+  type        = "list"
+  default     = []
+  description = "Additional attributes (e.g. `policy` or `role`)"
+}
+
+variable "tags" {
+  type    = "map"
+  default = {}
 }

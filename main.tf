@@ -3,8 +3,20 @@
 # Available here: https://github.com/innovationnorway/terraform-github-repository
 #
 
+module "label" {
+  source     = "git::https://github.com/flaconi/terraform-null-label.git?ref=tags/0.3.3"
+  enabled    = "${var.enabled}"
+  namespace  = "${var.namespace}"
+  stage      = "${var.stage}"
+  name       = "${var.name}"
+  delimiter  = "${var.delimiter}"
+  attributes = "${var.attributes}"
+  tags       = "${var.tags}"
+}
+
 resource "github_repository" "main" {
-  name = "${var.name}"
+  count = "${var.enabled == "true" ? 1 : 0}"
+  name  = "${var.use_fullname == "true" ? module.label.id : module.label.name}"
 
   description  = "${var.description}"
   homepage_url = "${var.homepage_url}"
@@ -31,13 +43,13 @@ resource "github_repository" "main" {
 }
 
 data "github_team" "main" {
-  count = "${length(var.teams)}"
+  count = "${var.enabled == "true" ? length(var.teams) : 0 }"
 
   slug = "${lookup(var.teams[count.index],"name")}"
 }
 
 resource "github_team_repository" "main" {
-  count = "${length(var.teams)}"
+  count = "${var.enabled == "true" ?  length(var.teams) : 0 }"
 
   repository = "${github_repository.main.name}"
 
@@ -46,7 +58,7 @@ resource "github_team_repository" "main" {
 }
 
 resource "github_issue_label" "main" {
-  count = "${length(var.issue_labels)}"
+  count = "${var.enabled == "true" ?  length(var.issue_labels) : 0 }"
 
   repository = "${github_repository.main.name}"
 
@@ -57,7 +69,7 @@ resource "github_issue_label" "main" {
 }
 
 resource "github_branch_protection" "main" {
-  count      = "${var.default_branch_protection_enabled ? 1 : 0 }"
+  count      = "${var.enabled && var.default_branch_protection_enabled ? 1 : 0 }"
   repository = "${github_repository.main.name}"
   branch     = "${var.default_branch}"
 
