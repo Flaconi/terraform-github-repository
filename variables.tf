@@ -22,6 +22,24 @@ variable "use_fullname" {
   description = "Set 'true' to use `namespace-stage-name` for ecr repository name, else `name`"
 }
 
+variable "delimiter" {
+  type        = "string"
+  default     = "-"
+  description = "Delimiter to be used between `name`, `namespace`, `stage`, etc."
+}
+
+variable "attributes" {
+  type        = "list"
+  default     = []
+  description = "Additional attributes (e.g. `policy` or `role`)"
+}
+
+variable "tags" {
+  type        = "map"
+  default     = {}
+  description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`)"
+}
+
 variable "description" {
   type        = "string"
   default     = ""
@@ -164,15 +182,4 @@ variable "topics" {
   type        = "list"
   default     = []
   description = "A list of topics to add to the repository."
-}
-
-variable "attributes" {
-  type        = "list"
-  default     = []
-  description = "Additional attributes (e.g. `policy` or `role`)"
-}
-
-variable "tags" {
-  type    = "map"
-  default = {}
 }

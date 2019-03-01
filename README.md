@@ -118,26 +118,30 @@ module "example_repo" {
   ]
 }
 ```
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | name | The name of the repository. | string | n/a | yes |
+| namespace | Namespace (e.g. `ops` | string | n/a | yes |
+| stage | Stage (e.g. `prod`, `dev`, `staging`) | string | n/a | yes |
 | allow\_merge\_commit | Set  to `false` to disable merge commits on the repository. | string | `"false"` | no |
 | allow\_rebase\_merge | Set  to `false` to disable rebase merges on the repository. | string | `"false"` | no |
 | allow\_squash\_merge | Set  to `false` to disable squash merges on the repository. | string | `"true"` | no |
 | archived | Specifies if the repository should be archived. | string | `"false"` | no |
+| attributes | Additional attributes (e.g. `policy` or `role`) | list | `[]` | no |
 | auto\_init | Meaningful only during create; set  to `true` to produce an initial commit in the repository. | string | `"true"` | no |
 | default\_branch | The name of the default branch of the repository. NOTE: This can only be set after a repository has already been created, and after a correct reference has been created for the target branch inside the repository. | string | `"master"` | no |
 | default\_branch\_protection\_dismiss\_stale\_reviews | Dismiss approved reviews automatically when a new commit is pushed. Defaults to false. | string | `"true"` | no |
 | default\_branch\_protection\_enabled | Do we want to enable branch protection for the default branch | string | `"false"` | no |
 | default\_branch\_protection\_enforce\_admins | Boolean, setting this to true enforces status checks for repository administrators. | string | `"false"` | no |
 | default\_branch\_protection\_require\_code\_owner\_reviews | Require an approved review in pull requests including files with a designated code owner. Defaults to false. | string | `"false"` | no |
-| default\_branch\_protection\_required\_status\_checks\_contexts |  | list | `[]` | no |
+| default\_branch\_protection\_required\_status\_checks\_contexts | List of status checks, e.g. travis | list | `[]` | no |
 | default\_branch\_protection\_required\_status\_checks\_strict | Require branches to be up to date before merging. Defaults to false. | string | `"true"` | no |
 | default\_branch\_protection\_restrictions\_teams | The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository. | list | `[]` | no |
+| delimiter | Delimiter to be used between `name`, `namespace`, `stage`, etc. | string | `"-"` | no |
 | description | A description of the repository. | string | `""` | no |
+| enabled | Set to false to prevent the module from creating any resources | string | `"true"` | no |
 | gitignore\_template | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | string | `""` | no |
 | has\_issues | Set  to `false` to disable the GitHub Issues features on the repository. | string | `"true"` | no |
 | has\_projects | Set  to `true` to enable the GitHub Projects features on the repository. | string | `"false"` | no |
@@ -146,8 +150,10 @@ module "example_repo" {
 | issue\_labels | List of issue labels on the repository. | list | `[]` | no |
 | license\_template | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | string | `""` | no |
 | private | Set to `false` to create a public (e.g. open source) repository. | string | `"true"` | no |
+| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | map | `{}` | no |
 | teams | List of teams on the repository. | list | `[]` | no |
-| webhooks | List of webhooks on the repository. | list | `[]` | no |
+| topics | A list of topics to add to the repository. | list | `[]` | no |
+| use\_fullname | Set 'true' to use `namespace-stage-name` for ecr repository name, else `name` | string | `"true"` | no |
 
 ## Outputs
 
@@ -160,7 +166,6 @@ module "example_repo" {
 | http\_clone\_url | URL that can be provided to "git clone" to clone the repository via HTTPS. |
 | name | The name of the repository. |
 | ssh\_clone\_url | URL that can be provided to "git clone" to clone the repository via SSH. |
-
 
 ## License
 
