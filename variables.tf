@@ -140,3 +140,9 @@ variable "issue_labels" {
   default     = []
   description = "List of issue labels on the repository."
 }
+
+variable "topics" {
+  type        = "list"
+  default     = []
+  description = "A list of topics to add to the repository."
+}

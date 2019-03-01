@@ -23,6 +23,10 @@ resource "github_repository" "main" {
   gitignore_template = "${var.gitignore_template}"
   license_template   = "${var.license_template}"
 
+  topics = "${var.topics}"
+
+  license_template = "${var.license_template}"
+
   archived = "${var.archived}"
 }
 
