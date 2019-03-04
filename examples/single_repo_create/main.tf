@@ -36,6 +36,8 @@ module "example_repo" {
   name = "example-test"
 
   description = "Terraform module github repository testing "
+  namespace   = "namespace"
+  stage       = "stage"
 
   private = true
 
