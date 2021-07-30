@@ -12,6 +12,8 @@ module "label" {
   delimiter  = var.delimiter
   attributes = var.attributes
   tags       = var.tags
+
+  regex_replace_chars = "/[^a-zA-Z0-9-_]/"
 }
 
 resource "github_repository" "main" {
