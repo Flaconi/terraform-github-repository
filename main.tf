@@ -17,8 +17,8 @@ module "label" {
 }
 
 resource "github_repository" "main" {
-  count = var.enabled == true ? 1 : 0
-  name  = var.use_fullname == true ? module.label.id : module.label.name
+  count = var.enabled ? 1 : 0
+  name  = var.use_fullname ? module.label.id : module.label.name
 
   description  = var.description
   homepage_url = var.homepage_url
@@ -43,13 +43,13 @@ resource "github_repository" "main" {
 }
 
 data "github_team" "main" {
-  count = var.enabled == "true" ? length(var.teams) : 0
+  count = var.enabled ? length(var.teams) : 0
 
   slug = var.teams[count.index]["name"]
 }
 
 resource "github_team_repository" "main" {
-  count = var.enabled == "true" ? length(var.teams) : 0
+  count = var.enabled ? length(var.teams) : 0
 
   repository = github_repository.main[0].name
 
@@ -58,7 +58,7 @@ resource "github_team_repository" "main" {
 }
 
 resource "github_issue_label" "main" {
-  count = var.enabled == "true" ? length(var.issue_labels) : 0
+  count = var.enabled ? length(var.issue_labels) : 0
 
   repository = github_repository.main[0].name
 
