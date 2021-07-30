@@ -1,16 +1,16 @@
 variable "github_token" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 variable "github_organization" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 provider "github" {
-  token        = "${var.github_token}"
-  organization = "${var.github_organization}"
+  token        = var.github_token
+  organization = var.github_organization
 }
 
 locals {
@@ -41,7 +41,7 @@ module "example_repo" {
 
   private = true
 
-  teams = "${local.teams}"
+  teams = local.teams
 
   allow_merge_commit = "true"
   allow_squash_merge = "true"
