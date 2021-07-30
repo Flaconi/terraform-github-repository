@@ -12,13 +12,14 @@ variable "stage" {
 }
 
 variable "enabled" {
+  type        = bool
   description = "Set to false to prevent the module from creating any resources"
-  default     = "true"
+  default     = true
 }
 
 variable "use_fullname" {
-  type        = string
-  default     = "true"
+  type        = bool
+  default     = true
   description = "Set 'true' to use `namespace-stage-name` for ecr repository name, else `name`"
 }
 

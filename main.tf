@@ -15,8 +15,8 @@ module "label" {
 }
 
 resource "github_repository" "main" {
-  count = var.enabled == "true" ? 1 : 0
-  name  = var.use_fullname == "true" ? module.label.id : module.label.name
+  count = var.enabled == true ? 1 : 0
+  name  = var.use_fullname == true ? module.label.id : module.label.name
 
   description  = var.description
   homepage_url = var.homepage_url
