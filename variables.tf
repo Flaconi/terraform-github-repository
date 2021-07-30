@@ -126,9 +126,9 @@ variable "archived" {
 }
 
 variable "teams" {
-  type        = list(object({
-    name      = string
-    permission= string
+  type = list(object({
+    name       = string
+    permission = string
   }))
   default     = []
   description = "List of teams on the repository."
@@ -177,7 +177,7 @@ variable "default_branch_protection_restrictions_teams" {
 }
 
 variable "issue_labels" {
-  type        = list(object({
+  type = list(object({
     name        = string
     color       = string
     description = string
