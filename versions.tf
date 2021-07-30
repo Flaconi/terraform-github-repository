@@ -4,5 +4,5 @@ terraform {
 }
 
 provider "github" {
-  version      = "~> 4"
+  version = "~> 4"
 }
