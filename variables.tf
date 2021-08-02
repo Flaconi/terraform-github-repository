@@ -53,10 +53,10 @@ variable "homepage_url" {
   description = "URL of a page describing the project."
 }
 
-variable "private" {
-  type        = bool
-  default     = true
-  description = "Set to `false` to create a public (e.g. open source) repository."
+variable "visibility" {
+  type        = string
+  default     = "private"
+  description = "Set to `public` to create a public (e.g. open source) repository."
 }
 
 variable "has_issues" {

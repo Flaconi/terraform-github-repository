@@ -3,14 +3,14 @@ variable "github_token" {
   default = ""
 }
 
-variable "github_organization" {
+variable "github_owner" {
   type    = string
   default = ""
 }
 
 provider "github" {
-  token        = var.github_token
-  organization = var.github_organization
+  token = var.github_token
+  owner = var.github_owner
 }
 
 locals {
@@ -39,7 +39,7 @@ module "example_repo" {
   namespace   = "namespace"
   stage       = "stage"
 
-  private = true
+  visibility = "private"
 
   teams = local.teams
 

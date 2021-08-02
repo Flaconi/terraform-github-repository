@@ -164,11 +164,11 @@ module "example_repo" {
 | homepage\_url | URL of a page describing the project. | `string` | `""` | no |
 | issue\_labels | List of issue labels on the repository. | <pre>list(object({<br>    name        = string<br>    color       = string<br>    description = string<br>  }))</pre> | `[]` | no |
 | license\_template | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
-| private | Set to `false` to create a public (e.g. open source) repository. | `bool` | `true` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | `map(string)` | `{}` | no |
 | teams | List of teams on the repository. | <pre>list(object({<br>    name       = string<br>    permission = string<br>  }))</pre> | `[]` | no |
 | topics | A list of topics to add to the repository. | `list(string)` | `[]` | no |
 | use\_fullname | Set 'true' to use `namespace-stage-name` for ecr repository name, else `name` | `bool` | `true` | no |
+| visibility | Set to `public` to create a public (e.g. open source) repository. | `string` | `"private"` | no |
 
 ## Outputs
 
