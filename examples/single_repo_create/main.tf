@@ -1,16 +1,16 @@
 variable "github_token" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
-variable "github_organization" {
-  type    = "string"
+variable "github_owner" {
+  type    = string
   default = ""
 }
 
 provider "github" {
-  token        = "${var.github_token}"
-  organization = "${var.github_organization}"
+  token = var.github_token
+  owner = var.github_owner
 }
 
 locals {
@@ -39,16 +39,16 @@ module "example_repo" {
   namespace   = "namespace"
   stage       = "stage"
 
-  private = true
+  visibility = "private"
 
-  teams = "${local.teams}"
+  teams = local.teams
 
-  allow_merge_commit = "true"
-  allow_squash_merge = "true"
-  allow_rebase_merge = "true"
+  allow_merge_commit = true
+  allow_squash_merge = true
+  allow_rebase_merge = true
 
-  default_branch_protection_enforce_admins                  = "true"
-  default_branch_protection_enabled                         = "true"
+  default_branch_protection_enforce_admins                  = true
+  default_branch_protection_enabled                         = true
   default_branch_protection_required_status_checks_contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
-  default_branch_protection_require_code_owner_reviews      = "true"
+  default_branch_protection_require_code_owner_reviews      = true
 }
