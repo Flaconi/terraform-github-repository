@@ -4,8 +4,8 @@
 [![Tag](https://img.shields.io/github/tag/Flaconi/terraform-github-repository.svg)](https://github.com/Flaconi/terraform-github-repository/releases)
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-This Terraform module manages GitHub repositories. It's a backport from https://github.com/innovationnorway/terraform-github-repository which was written for 0.12. As 0.11 does not have dynamic blocks
-this module will only allow branch protection for one branch, the default branch ( defaults to master ) 
+This Terraform module manages GitHub repositories. 
+Initially it was a backport from https://github.com/innovationnorway/terraform-github-repository which was written for 0.12 and as dynamic blocks were removed to be complied with 0.11 - this module will only allow branch protection for one branch, the default branch ( defaults to master ).
 
 ## Example Usage
 
@@ -19,7 +19,7 @@ module "my_pets_website_repo" {
 
   description = "My pets codebase."
 
-  private = true
+  visibility = "private"
 
   gitignore_template = "Node"
 
@@ -36,7 +36,7 @@ module "terraform_my_pets_repo" {
 
   description = "Terraform configuration for my pets."
 
-  private = false
+  visibility = "public"
 
   gitignore_template = "Terraform"
   
@@ -55,7 +55,7 @@ module "example_repo" {
 
   description = "My example codebase"
 
-  private = true
+  visibility = "private"
 
   teams = [
     {
@@ -76,7 +76,7 @@ module "example_repo" {
 
   description = "My example codebase"
 
-  private = true
+  visibility = "private"
 
   default_branch_protection_enabled = true
 
@@ -104,16 +104,18 @@ module "example_repo" {
 
   description = "My example codebase"
 
-  private = true
+  visibility = "private"
 
   issue_labels = [
     {
-      name  = "bug"
-      color = "d73a4a"
+      name        = "bug"
+      color       = "d73a4a"
+      description = null
     },
     {
-      name  = "wontfix"
-      color = "ffffff"
+      name        = "wontfix"
+      color       = "ffffff"
+      description = null
     },
   ]
 }
