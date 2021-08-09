@@ -126,7 +126,7 @@ module "example_repo" {
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12 |
+| terraform | >= 0.13 |
 | github | ~> 4 |
 
 ## Providers
