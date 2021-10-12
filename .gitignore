@@ -5,5 +5,8 @@
 *.tfstate
 *.tfstate.*
 
+# Exclude the providers lock file introduced by TF0.14
+.terraform.lock.hcl
+
 # .tfvars files
 *.tfvars
