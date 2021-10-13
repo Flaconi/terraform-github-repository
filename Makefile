@@ -11,7 +11,7 @@ TF_VERSION = 0.13.7
 # -------------------------------------------------------------------------------------------------
 # Terraform-docs configuration
 # -------------------------------------------------------------------------------------------------
-TFDOCS_VERSION = 0.9.1-0.28
+TFDOCS_VERSION = 0.15.0-0.29
 
 # Adjust your delimiter here or overwrite via make arguments
 TFDOCS_DELIM_START = <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -46,7 +46,8 @@ lint:
 	@echo "################################################################################"
 	@echo "# Terraform fmt"
 	@echo "################################################################################"
-	@if docker run -it --rm -v "$(CURRENT_DIR):/t:ro" --workdir "/t" hashicorp/terraform:$(TF_VERSION) \
+	@if docker run $$(tty -s && echo "-it" || echo) --rm \
+	  -v "$(CURRENT_DIR):/t:ro" --workdir "/t" hashicorp/terraform:$(TF_VERSION) \
 		fmt -check=true -diff=true -write=false -list=true .; then \
 		echo "OK"; \
 	else \
@@ -119,7 +120,7 @@ terraform-docs: _pull-tfdocs
 			-e TFDOCS_DELIM_START='$(TFDOCS_DELIM_START)' \
 			-e TFDOCS_DELIM_CLOSE='$(TFDOCS_DELIM_CLOSE)' \
 			cytopia/terraform-docs:$(TFDOCS_VERSION) \
-			terraform-docs-replace --sort-inputs-by-required --with-aggregate-type-defaults md README.md; then \
+			terraform-docs-replace --sort-by required markdown README.md; then \
 			echo "OK"; \
 		else \
 			echo "Failed"; \
