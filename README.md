@@ -139,7 +139,7 @@ module "example_repo" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_label"></a> [label](#module\_label) | github.com/Flaconi/terraform-null-label.git | 0.24.1 |
+| <a name="module_label"></a> [label](#module\_label) | github.com/Flaconi/terraform-null-label.git | 0.25.0 |
 
 ## Resources
 
@@ -206,4 +206,4 @@ module "example_repo" {
 
 [MIT](LICENSE)
 
-Copyright (c) 2018 [Flaconi GmbH](https://github.com/Flaconi)
+Copyright (c) 2021 [Flaconi GmbH](https://github.com/Flaconi)
