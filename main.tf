@@ -27,25 +27,48 @@ resource "github_repository" "main" {
 
   has_issues   = var.has_issues
   has_projects = var.has_projects
+  has_wiki     = var.has_wiki
+
+  is_template  = var.is_template
 
   allow_merge_commit = var.allow_merge_commit
   allow_squash_merge = var.allow_squash_merge
   allow_rebase_merge = var.allow_rebase_merge
+  allow_auto_merge   = var.allow_auto_merge
 
-  auto_init = var.auto_init
+  delete_branch_on_merge = var.delete_branch_on_merge
 
+  auto_init          = var.auto_init
   gitignore_template = var.gitignore_template
   license_template   = var.license_template
 
   topics = var.topics
 
-  archived = var.archived
-}
+  archived           = var.archived
+  archive_on_destroy = var.archive_on_destroy
 
-data "github_team" "main" {
-  count = var.enabled ? length(var.teams) : 0
+  dynamic "pages" {
+    for_each = var.pages != null ? { this = var.pages } : {}
+    content {
+      dynamic "source" {
+        for_each = { this = pages.value["source"] }
+        content {
+          branch = source.value["branch"]
+          path   = source.value["path"]
+        }
+      }
+    }
+  }
 
-  slug = var.teams[count.index]["name"]
+  dynamic "template" {
+    for_each = var.template != null ? { this = var.template } : {}
+    content {
+      owner      = template.value["owner"]
+      repository = template.value["repository"]
+    }
+  }
+
+  vulnerability_alerts = var.vulnerability_alerts
 }
 
 resource "github_team_repository" "main" {
@@ -71,7 +94,7 @@ resource "github_issue_label" "main" {
 resource "github_branch_protection" "main" {
   count         = var.enabled && var.default_branch_protection_enabled ? 1 : 0
   repository_id = github_repository.main[0].node_id
-  pattern       = var.default_branch
+  pattern       = github_repository.main[0].default_branch
 
   enforce_admins = var.default_branch_protection_enforce_admins
 

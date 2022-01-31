@@ -77,6 +77,12 @@ variable "has_wiki" {
   description = "Set  to `true` to enable the GitHub Wiki features on the repository."
 }
 
+variable "is_template" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to tell GitHub that this is a template repository."
+}
+
 variable "allow_merge_commit" {
   type        = bool
   default     = false
@@ -93,6 +99,18 @@ variable "allow_rebase_merge" {
   type        = bool
   default     = false
   description = "Set  to `false` to disable rebase merges on the repository."
+}
+
+variable "allow_auto_merge" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to allow auto-merging pull requests on the repository."
+}
+
+variable "delete_branch_on_merge" {
+  type        = bool
+  default     = true
+  description = "Automatically delete head branch after a pull request is merged."
 }
 
 variable "auto_init" {
@@ -116,13 +134,19 @@ variable "gitignore_template" {
 variable "default_branch" {
   type        = string
   default     = "master"
-  description = "The name of the default branch of the repository. NOTE: This can only be set after a repository has already been created, and after a correct reference has been created for the target branch inside the repository."
+  description = "The name of the default branch of the repository."
 }
 
 variable "archived" {
   type        = bool
   default     = false
   description = "Specifies if the repository should be archived."
+}
+
+variable "archive_on_destroy" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to archive the repository instead of deleting on destroy."
 }
 
 variable "teams" {
@@ -132,6 +156,17 @@ variable "teams" {
   }))
   default     = []
   description = "List of teams on the repository."
+}
+
+variable "pages" {
+  type = object({
+    source = object({
+      branch = string
+      path   = string
+    })
+  })
+  default     = null
+  description = "The repository's GitHub Pages configuration."
 }
 
 variable "default_branch_protection_enabled" {
@@ -190,4 +225,19 @@ variable "topics" {
   type        = list(string)
   default     = []
   description = "A list of topics to add to the repository."
+}
+
+variable "template" {
+  type = object({
+    owner      = string
+    repository = string
+  })
+  default     = null
+  description = "Use a template repository to create this repository."
+}
+
+variable "vulnerability_alerts" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to enable security alerts for vulnerable dependencies. Enabling requires alerts to be enabled on the owner level."
 }
