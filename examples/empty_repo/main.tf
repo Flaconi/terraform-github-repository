@@ -13,14 +13,14 @@ provider "github" {
   owner = var.github_owner
 }
 
+# This will create `terraform-example-test-empty` repository
 module "example" {
   source = "../../"
 
-  name = "example-test-empty"
-
-  description = "Terraform module example github repository"
   namespace   = "terraform"
-  stage       = "null"
+  tenant      = "example"
+  name        = "test-empty"
+  description = "Terraform module example github repository"
 
   visibility = "private"
 
