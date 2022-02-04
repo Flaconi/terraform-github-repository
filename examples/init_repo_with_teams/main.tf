@@ -30,14 +30,15 @@ resource "github_team" "developers" {
   create_default_maintainer = false
 }
 
+# This will create `terraform-example-test-teams` repository
 module "example" {
   source = "../../"
 
-  name = "example-test-teams"
+  name = "test-teams"
 
   description = "Terraform module example github repository"
   namespace   = "terraform"
-  stage       = "null"
+  tenant      = "example"
 
   visibility = "public"
 
