@@ -5,7 +5,7 @@
 
 module "label" {
   source     = "github.com/cloudposse/terraform-null-label.git?ref=0.25.0"
-  enabled    = var.enabled
+  enabled    = true
   namespace  = var.namespace
   tenant     = var.tenant
   name       = var.name
@@ -18,8 +18,7 @@ module "label" {
 }
 
 resource "github_repository" "main" {
-  count = var.enabled ? 1 : 0
-  name  = var.use_fullname ? module.label.id : module.label.name
+  name = var.use_fullname ? module.label.id : module.label.name
 
   description  = var.description
   homepage_url = var.homepage_url
@@ -73,18 +72,18 @@ resource "github_repository" "main" {
 }
 
 resource "github_team_repository" "main" {
-  count = var.enabled ? length(var.teams) : 0
+  count = length(var.teams)
 
-  repository = github_repository.main[0].name
+  repository = github_repository.main.name
 
   team_id    = element(data.github_team.main.*.id, count.index)
   permission = var.teams[count.index]["permission"]
 }
 
 resource "github_issue_label" "main" {
-  count = var.enabled ? length(var.issue_labels) : 0
+  count = length(var.issue_labels)
 
-  repository = github_repository.main[0].name
+  repository = github_repository.main.name
 
   name  = var.issue_labels[count.index]["name"]
   color = var.issue_labels[count.index]["color"]
@@ -93,9 +92,9 @@ resource "github_issue_label" "main" {
 }
 
 resource "github_branch_protection" "main" {
-  count         = var.enabled && var.default_branch_protection_enabled ? 1 : 0
-  repository_id = github_repository.main[0].node_id
-  pattern       = github_repository.main[0].default_branch
+  count         = var.default_branch_protection_enabled ? 1 : 0
+  repository_id = github_repository.main.node_id
+  pattern       = github_repository.main.default_branch
 
   enforce_admins = var.default_branch_protection_enforce_admins
 

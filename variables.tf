@@ -15,12 +15,6 @@ variable "tenant" {
   description = "A customer identifier, indicating who this instance of a resource is for. Could be used for application grouping."
 }
 
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Set to false to prevent the module from creating any resources"
-}
-
 variable "use_fullname" {
   type        = bool
   default     = true
