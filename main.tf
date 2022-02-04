@@ -4,7 +4,7 @@
 #
 
 module "label" {
-  source     = "github.com/Flaconi/terraform-null-label.git?ref=0.25.0"
+  source     = "github.com/cloudposse/terraform-null-label.git?ref=0.25.0"
   enabled    = var.enabled
   namespace  = var.namespace
   stage      = var.stage
