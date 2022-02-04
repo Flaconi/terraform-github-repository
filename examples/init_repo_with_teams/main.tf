@@ -34,11 +34,10 @@ resource "github_team" "developers" {
 module "example" {
   source = "../../"
 
-  name = "test-teams"
-
-  description = "Terraform module example github repository"
   namespace   = "terraform"
   tenant      = "example"
+  name        = "test-teams"
+  description = "Terraform module example github repository"
 
   visibility = "public"
 

@@ -17,11 +17,10 @@ provider "github" {
 module "example" {
   source = "../../"
 
-  name = "test-empty"
-
-  description = "Terraform module example github repository"
   namespace   = "terraform"
   tenant      = "example"
+  name        = "test-empty"
+  description = "Terraform module example github repository"
 
   visibility = "private"
 
