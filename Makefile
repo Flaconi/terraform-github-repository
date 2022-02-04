@@ -64,7 +64,7 @@ test:
 		echo "################################################################################"; \
 		echo "# Terraform init:  $${DOCKER_PATH}"; \
 		echo "################################################################################"; \
-		if docker run -it --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" hashicorp/terraform:$(TF_VERSION) \
+		if docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" hashicorp/terraform:$(TF_VERSION) \
 			init \
 				-verify-plugins=true \
 				-lock=false \
@@ -77,7 +77,7 @@ test:
 			echo "OK"; \
 		else \
 			echo "Failed"; \
-			docker run -it --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
+			docker run $$(tty -s && echo "-it" || echo) --rm-v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
 			exit 1; \
 		fi; \
 		echo; \
@@ -88,14 +88,14 @@ test:
 		echo "################################################################################"; \
 		echo "# Terraform validate:  $${DOCKER_PATH}"; \
 		echo "################################################################################"; \
-		if docker run -it --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" hashicorp/terraform:$(TF_VERSION) \
+		if docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" hashicorp/terraform:$(TF_VERSION) \
 			validate \
 				.; then \
 			echo "OK"; \
-			docker run -it --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
+			docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
 		else \
 			echo "Failed"; \
-			docker run -it --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
+			docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
 			exit 1; \
 		fi; \
 		echo; \
@@ -115,7 +115,7 @@ terraform-docs: _pull-tfdocs
 		echo "------------------------------------------------------------"; \
 		echo "# $(project)"; \
 		echo "------------------------------------------------------------"; \
-		if docker run --rm $$(tty -s && echo "-it" || echo) \
+		if docker run $$(tty -s && echo "-it" || echo) --rm \
 			-v $(CURRENT_DIR):/data \
 			-e TFDOCS_DELIM_START='$(TFDOCS_DELIM_START)' \
 			-e TFDOCS_DELIM_CLOSE='$(TFDOCS_DELIM_CLOSE)' \
