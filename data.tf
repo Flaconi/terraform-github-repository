@@ -1,5 +1,5 @@
 data "github_team" "main" {
-  count = length(var.teams)
+  for_each = local.teams
 
-  slug = replace(lower(var.teams[count.index]["name"]), " ", "-")
+  slug = each.key
 }
