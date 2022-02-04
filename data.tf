@@ -1,5 +1,5 @@
 data "github_team" "main" {
-  count = var.enabled ? length(var.teams) : 0
+  count = length(var.teams)
 
   slug = replace(lower(var.teams[count.index]["name"]), " ", "-")
 }
