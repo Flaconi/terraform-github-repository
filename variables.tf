@@ -4,29 +4,33 @@ variable "name" {
 }
 
 variable "namespace" {
-  description = "Namespace (e.g. `ops`"
+  type        = string
+  default     = null
+  description = "Namespace, e.g. `terraform`, `product`, `mobile` etc."
 }
 
-variable "stage" {
-  description = "Stage (e.g. `prod`, `dev`, `staging`)"
+variable "tenant" {
+  type        = string
+  default     = null
+  description = "A customer identifier, indicating who this instance of a resource is for. Could be used for application grouping."
 }
 
 variable "enabled" {
   type        = bool
-  description = "Set to false to prevent the module from creating any resources"
   default     = true
+  description = "Set to false to prevent the module from creating any resources"
 }
 
 variable "use_fullname" {
   type        = bool
   default     = true
-  description = "Set 'true' to use `namespace-stage-name` for ecr repository name, else `name`"
+  description = "Set 'true' to use `namespace-tenant-name` for github repository name, else `name`"
 }
 
 variable "delimiter" {
   type        = string
   default     = "-"
-  description = "Delimiter to be used between `name`, `namespace`, `stage`, etc."
+  description = "Delimiter to be used between `name`, `namespace`, `tenant`, etc."
 }
 
 variable "attributes" {
@@ -170,45 +174,45 @@ variable "pages" {
 }
 
 variable "default_branch_protection_enabled" {
-  description = "Do we want to enable branch protection for the default branch"
   type        = bool
   default     = false
+  description = "Do we want to enable branch protection for the default branch"
 }
 
 variable "default_branch_protection_enforce_admins" {
-  description = "Boolean, setting this to true enforces status checks for repository administrators."
   type        = bool
   default     = false
+  description = "Boolean, setting this to true enforces status checks for repository administrators."
 }
 
 variable "default_branch_protection_required_status_checks_strict" {
-  description = "Require branches to be up to date before merging. Defaults to false."
   type        = bool
   default     = true
+  description = "Require branches to be up to date before merging. Defaults to false."
 }
 
 variable "default_branch_protection_required_status_checks_contexts" {
-  description = "List of status checks, e.g. travis"
   type        = list(string)
   default     = []
+  description = "List of status checks, e.g. travis"
 }
 
 variable "default_branch_protection_dismiss_stale_reviews" {
-  description = "Dismiss approved reviews automatically when a new commit is pushed. Defaults to false."
   type        = bool
   default     = true
+  description = "Dismiss approved reviews automatically when a new commit is pushed. Defaults to false."
 }
 
 variable "default_branch_protection_require_code_owner_reviews" {
-  description = "Require an approved review in pull requests including files with a designated code owner. Defaults to false."
   type        = bool
   default     = false
+  description = "Require an approved review in pull requests including files with a designated code owner. Defaults to false."
 }
 
 variable "default_branch_protection_restrictions_teams" {
-  description = "The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository."
   type        = list(string)
   default     = []
+  description = "The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository."
 }
 
 variable "issue_labels" {
