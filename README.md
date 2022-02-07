@@ -57,12 +57,9 @@ module "example_repo" {
 
   visibility = "private"
 
-  teams = [
-    {
-      name       = "security"
-      permission = "admin"
-    },
-  ]
+  teams = {
+    security = "admin"
+  }
 }
 ```
 
@@ -148,7 +145,8 @@ module "example_repo" {
 | [github_branch_protection.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_issue_label.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/issue_label) | resource |
 | [github_repository.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
-| [github_team_repository.main](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
+| [github_repository_collaborator.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator) | resource |
+| [github_team_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [github_team.main](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
 
 ## Inputs
@@ -164,6 +162,7 @@ module "example_repo" {
 | <a name="input_archived"></a> [archived](#input\_archived) | Specifies if the repository should be archived. | `bool` | `false` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `policy` or `role`) | `list(string)` | `[]` | no |
 | <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | Meaningful only during create; set  to `true` to produce an initial commit in the repository. | `bool` | `true` | no |
+| <a name="input_collaborators"></a> [collaborators](#input\_collaborators) | Map of users with permissions. | `map(string)` | `{}` | no |
 | <a name="input_default_branch"></a> [default\_branch](#input\_default\_branch) | The name of the default branch of the repository. | `string` | `"master"` | no |
 | <a name="input_default_branch_protection_dismiss_stale_reviews"></a> [default\_branch\_protection\_dismiss\_stale\_reviews](#input\_default\_branch\_protection\_dismiss\_stale\_reviews) | Dismiss approved reviews automatically when a new commit is pushed. Defaults to false. | `bool` | `true` | no |
 | <a name="input_default_branch_protection_enabled"></a> [default\_branch\_protection\_enabled](#input\_default\_branch\_protection\_enabled) | Do we want to enable branch protection for the default branch | `bool` | `false` | no |
@@ -186,7 +185,7 @@ module "example_repo" {
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, e.g. `terraform`, `product`, `mobile` etc. | `string` | `null` | no |
 | <a name="input_pages"></a> [pages](#input\_pages) | The repository's GitHub Pages configuration. | <pre>object({<br>    source = object({<br>      branch = string<br>      path   = string<br>    })<br>  })</pre> | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | `map(string)` | `{}` | no |
-| <a name="input_teams"></a> [teams](#input\_teams) | List of teams on the repository. | <pre>list(object({<br>    name       = string<br>    permission = string<br>  }))</pre> | `[]` | no |
+| <a name="input_teams"></a> [teams](#input\_teams) | Map of organization teams with permissions. | `map(string)` | `{}` | no |
 | <a name="input_template"></a> [template](#input\_template) | Use a template repository to create this repository. | <pre>object({<br>    owner      = string<br>    repository = string<br>  })</pre> | `null` | no |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | A customer identifier, indicating who this instance of a resource is for. Could be used for application grouping. | `string` | `null` | no |
 | <a name="input_topics"></a> [topics](#input\_topics) | A list of topics to add to the repository. | `list(string)` | `[]` | no |

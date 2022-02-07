@@ -71,12 +71,20 @@ resource "github_repository" "main" {
   vulnerability_alerts = var.vulnerability_alerts
 }
 
-resource "github_team_repository" "main" {
+resource "github_team_repository" "this" {
   for_each = local.teams
 
   repository = github_repository.main.name
 
   team_id    = data.github_team.main[each.key].id
+  permission = each.value
+}
+
+resource "github_repository_collaborator" "this" {
+  for_each = var.collaborators
+
+  repository = github_repository.main.name
+  username   = each.key
   permission = each.value
 }
 
