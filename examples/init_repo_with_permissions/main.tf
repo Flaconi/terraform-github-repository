@@ -13,6 +13,10 @@ provider "github" {
   owner = var.github_owner
 }
 
+data "github_user" "current" {
+  username = ""
+}
+
 resource "github_team" "admins" {
   name        = "Repository Admins"
   description = "Admins for this repository"
@@ -41,16 +45,14 @@ module "example" {
 
   visibility = "public"
 
-  teams = [
-    {
-      name       = github_team.admins.name
-      permission = "admin"
-    },
-    {
-      name       = github_team.developers.name
-      permission = "push"
-    },
-  ]
+  teams = {
+    (github_team.admins.name)     = "admin"
+    (github_team.developers.name) = "push"
+  }
+
+  collaborators = {
+    (data.github_user.current.login) = "maintain"
+  }
 
   issue_labels = [
     {
