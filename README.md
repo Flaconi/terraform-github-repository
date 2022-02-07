@@ -57,12 +57,9 @@ module "example_repo" {
 
   visibility = "private"
 
-  teams = [
-    {
-      name       = "security"
-      permission = "admin"
-    },
-  ]
+  teams = {
+    security = "admin"
+  }
 }
 ```
 
