@@ -1,6 +1,6 @@
 locals {
-  teams = { for team in var.teams :
-    replace(lower(team["name"]), " ", "-") => team["permission"]
+  teams = { for team, permission in var.teams :
+    replace(lower(team), " ", "-") => permission
   }
 
   labels = { for label in var.issue_labels :

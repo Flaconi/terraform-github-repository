@@ -148,12 +148,30 @@ variable "archive_on_destroy" {
 }
 
 variable "teams" {
-  type = list(object({
-    name       = string
-    permission = string
-  }))
-  default     = []
-  description = "List of teams on the repository."
+  type = map(string)
+  default     = {}
+  description = "Map of organization teams with permissions."
+  validation {
+    condition = length(var.teams) > 0 ? alltrue([
+      for permission in distinct(values(var.teams)):
+        contains(["pull", "push", "maintain", "triage", "admin"], permission)
+    ]) : true
+    error_message = "Only \"pull\", \"push\", \"maintain\", \"triage\" or \"admin\" permissions are allowed."
+  }
+}
+
+variable "collaborators" {
+  type = map(string)
+  default     = {}
+  description = "Map of users with permissions."
+
+  validation {
+    condition = length(var.collaborators) > 0 ? alltrue([
+      for permission in distinct(values(var.collaborators)):
+        contains(["pull", "push", "maintain", "triage", "admin"], permission)
+    ]) : true
+    error_message = "Only \"pull\", \"push\", \"maintain\", \"triage\" or \"admin\" permissions are allowed."
+  }
 }
 
 variable "pages" {
