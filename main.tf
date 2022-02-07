@@ -72,27 +72,28 @@ resource "github_repository" "main" {
 }
 
 resource "github_team_repository" "main" {
-  count = length(var.teams)
+  for_each = local.teams
 
   repository = github_repository.main.name
 
-  team_id    = element(data.github_team.main.*.id, count.index)
-  permission = var.teams[count.index]["permission"]
+  team_id    = data.github_team.main[each.key].id
+  permission = each.value
 }
 
 resource "github_issue_label" "main" {
-  count = length(var.issue_labels)
+  for_each = local.labels
 
   repository = github_repository.main.name
 
-  name  = var.issue_labels[count.index]["name"]
-  color = var.issue_labels[count.index]["color"]
+  name  = each.value["name"]
+  color = each.value["color"]
 
-  description = lookup(var.issue_labels[count.index], "description", "")
+  description = each.value["description"]
 }
 
 resource "github_branch_protection" "main" {
-  count         = var.default_branch_protection_enabled ? 1 : 0
+  for_each = var.default_branch_protection_enabled ? toset(["default"]) : []
+
   repository_id = github_repository.main.node_id
   pattern       = github_repository.main.default_branch
 

@@ -52,6 +52,14 @@ module "example" {
     },
   ]
 
+  issue_labels = [
+    {
+      name        = "Custom"
+      color       = "FFAA77"
+      description = "This is custom label"
+    },
+  ]
+
   allow_merge_commit = false
   allow_squash_merge = true
   allow_rebase_merge = false
