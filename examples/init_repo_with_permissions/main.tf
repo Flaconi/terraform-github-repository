@@ -17,9 +17,9 @@ data "github_user" "current" {
   username = ""
 }
 
-resource "github_team" "admins" {
-  name        = "Repository Admins"
-  description = "Admins for this repository"
+resource "github_team" "maintainers" {
+  name        = "Repository Maintainers"
+  description = "Maintainers for this repository"
   privacy     = "closed"
 
   create_default_maintainer = true
@@ -46,12 +46,12 @@ module "example" {
   visibility = "public"
 
   teams = {
-    (github_team.admins.name)     = "admin"
-    (github_team.developers.name) = "push"
+    (github_team.maintainers.name) = "maintain"
+    (github_team.developers.name)  = "push"
   }
 
   collaborators = {
-    (data.github_user.current.login) = "maintain"
+    (data.github_user.current.login) = "admin"
   }
 
   issue_labels = [
@@ -74,7 +74,7 @@ module "example" {
   default_branch_protection_require_code_owner_reviews      = true
 
   depends_on = [
-    github_team.admins,
+    github_team.maintainers,
     github_team.developers
   ]
 }
