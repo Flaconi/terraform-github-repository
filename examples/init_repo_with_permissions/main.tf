@@ -68,10 +68,26 @@ module "example" {
 
   vulnerability_alerts = true
 
-  default_branch_protection_enforce_admins                  = true
-  default_branch_protection_enabled                         = true
-  default_branch_protection_required_status_checks_contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
-  default_branch_protection_require_code_owner_reviews      = true
+  default_branch_protection = {
+    enforce_admins = true
+    allows_deletions = false
+    allows_force_pushes = false
+    require_signed_commits = true
+    required_linear_history = false
+    require_conversation_resolution = false
+    push_restrictions = []
+    required_status_checks = {
+      strict = true
+      contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
+    }
+    required_pull_request_reviews = {
+      dismiss_stale_reviews = true
+      restrict_dismissals   = false
+      dismissal_restrictions = []
+      require_code_owner_reviews = true
+      required_approving_review_count = 1
+    }
+  }
 
   depends_on = [
     github_team.maintainers,

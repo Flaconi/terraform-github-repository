@@ -99,21 +99,29 @@ resource "github_issue_label" "main" {
   description = each.value["description"]
 }
 
-resource "github_branch_protection" "main" {
-  for_each = var.default_branch_protection_enabled ? toset(["default"]) : []
-
+resource "github_branch_protection" "default" {
   repository_id = github_repository.main.node_id
   pattern       = github_repository.main.default_branch
 
-  enforce_admins = var.default_branch_protection_enforce_admins
+  enforce_admins = var.default_branch_protection["enforce_admins"]
+  allows_deletions = var.default_branch_protection["allows_deletions"]
+  allows_force_pushes = var.default_branch_protection["allows_force_pushes"]
+  require_signed_commits = var.default_branch_protection["require_signed_commits"]
+  required_linear_history = var.default_branch_protection["required_linear_history"]
+  require_conversation_resolution = var.default_branch_protection["require_conversation_resolution"]
+  push_restrictions = var.default_branch_protection["push_restrictions"]
 
   required_status_checks {
-    strict   = var.default_branch_protection_required_status_checks_strict
-    contexts = var.default_branch_protection_required_status_checks_contexts
+    strict   = var.default_branch_protection["required_status_checks"]["strict"]
+    contexts = var.default_branch_protection["required_status_checks"]["contexts"]
   }
 
   required_pull_request_reviews {
-    require_code_owner_reviews = var.default_branch_protection_require_code_owner_reviews
-    dismiss_stale_reviews      = var.default_branch_protection_dismiss_stale_reviews
+    dismiss_stale_reviews = var.default_branch_protection["required_pull_request_reviews"]["dismiss_stale_reviews"]
+    restrict_dismissals   = var.default_branch_protection["required_pull_request_reviews"]["restrict_dismissals"]
+    dismissal_restrictions = var.default_branch_protection["required_pull_request_reviews"]["dismissal_restrictions"]
+    require_code_owner_reviews = var.default_branch_protection["required_pull_request_reviews"]["require_code_owner_reviews"]
+    required_approving_review_count = var.default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
   }
+
 }

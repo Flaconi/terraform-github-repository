@@ -186,46 +186,48 @@ variable "pages" {
   description = "The repository's GitHub Pages configuration."
 }
 
-variable "default_branch_protection_enabled" {
-  type        = bool
-  default     = false
-  description = "Do we want to enable branch protection for the default branch"
-}
-
-variable "default_branch_protection_enforce_admins" {
-  type        = bool
-  default     = false
-  description = "Boolean, setting this to true enforces status checks for repository administrators."
-}
-
-variable "default_branch_protection_required_status_checks_strict" {
-  type        = bool
-  default     = true
-  description = "Require branches to be up to date before merging. Defaults to false."
-}
-
-variable "default_branch_protection_required_status_checks_contexts" {
-  type        = list(string)
-  default     = []
-  description = "List of status checks, e.g. travis"
-}
-
-variable "default_branch_protection_dismiss_stale_reviews" {
-  type        = bool
-  default     = true
-  description = "Dismiss approved reviews automatically when a new commit is pushed. Defaults to false."
-}
-
-variable "default_branch_protection_require_code_owner_reviews" {
-  type        = bool
-  default     = false
-  description = "Require an approved review in pull requests including files with a designated code owner. Defaults to false."
-}
-
-variable "default_branch_protection_restrictions_teams" {
-  type        = list(string)
-  default     = []
-  description = "The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository."
+variable "default_branch_protection" {
+  type = object({
+    enforce_admins = bool
+    allows_deletions = bool
+    allows_force_pushes = bool
+    require_signed_commits = bool
+    required_linear_history = bool
+    require_conversation_resolution = bool
+    push_restrictions = list(string)
+    required_status_checks = object({
+      strict = bool
+      contexts = list(string)
+    })
+    required_pull_request_reviews = object({
+      dismiss_stale_reviews = bool
+      restrict_dismissals   = bool
+      dismissal_restrictions = list(string)
+      require_code_owner_reviews = bool
+      required_approving_review_count = number
+    })
+  })
+  default = {
+    enforce_admins = true
+    allows_deletions = false
+    allows_force_pushes = false
+    require_signed_commits = true
+    required_linear_history = false
+    require_conversation_resolution = false
+    push_restrictions = []
+    required_status_checks = {
+      strict = true
+      contexts = []
+    }
+    required_pull_request_reviews = {
+      dismiss_stale_reviews = true
+      restrict_dismissals   = false
+      dismissal_restrictions = []
+      require_code_owner_reviews = true
+      required_approving_review_count = 1
+    }
+  }
+  description = "Default branch protection settings."
 }
 
 variable "issue_labels" {
