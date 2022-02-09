@@ -4,6 +4,6 @@ output "repository" {
 }
 
 output "repository_branch_protection" {
-  value       = github_branch_protection.default
+  value       = github_branch_protection.main
   description = "Default branch protection settings"
 }

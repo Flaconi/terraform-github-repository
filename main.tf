@@ -99,7 +99,9 @@ resource "github_issue_label" "main" {
   description = each.value["description"]
 }
 
-resource "github_branch_protection" "default" {
+resource "github_branch_protection" "main" {
+  for_each = var.default_branch_protection_enabled ? toset(["default"]) : []
+
   repository_id = github_repository.main.node_id
   pattern       = github_repository.main.default_branch
 
@@ -124,4 +126,5 @@ resource "github_branch_protection" "default" {
     required_approving_review_count = local.rendered_default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
   }
 
+  depends_on = [github_repository.main]
 }

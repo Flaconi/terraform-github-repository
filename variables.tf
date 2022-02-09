@@ -144,7 +144,7 @@ variable "archive_on_destroy" {
 variable "teams" {
   type        = map(string)
   default     = {}
-  description = "Map of organization teams with permissions."
+  description = "Map of organization team names with permissions."
 
   validation {
     condition = length(var.teams) > 0 ? alltrue([
@@ -178,6 +178,12 @@ variable "pages" {
   })
   default     = null
   description = "The repository's GitHub Pages configuration."
+}
+
+variable "default_branch_protection_enabled" {
+  type        = bool
+  default     = true
+  description = "Set to `false` if you want to disable branch protection for default branch"
 }
 
 variable "default_branch_protection" {
