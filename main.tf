@@ -103,25 +103,25 @@ resource "github_branch_protection" "default" {
   repository_id = github_repository.main.node_id
   pattern       = github_repository.main.default_branch
 
-  enforce_admins = var.default_branch_protection["enforce_admins"]
-  allows_deletions = var.default_branch_protection["allows_deletions"]
-  allows_force_pushes = var.default_branch_protection["allows_force_pushes"]
-  require_signed_commits = var.default_branch_protection["require_signed_commits"]
-  required_linear_history = var.default_branch_protection["required_linear_history"]
-  require_conversation_resolution = var.default_branch_protection["require_conversation_resolution"]
-  push_restrictions = var.default_branch_protection["push_restrictions"]
+  enforce_admins                  = local.rendered_default_branch_protection["enforce_admins"]
+  allows_deletions                = local.rendered_default_branch_protection["allows_deletions"]
+  allows_force_pushes             = local.rendered_default_branch_protection["allows_force_pushes"]
+  require_signed_commits          = local.rendered_default_branch_protection["require_signed_commits"]
+  required_linear_history         = local.rendered_default_branch_protection["required_linear_history"]
+  require_conversation_resolution = local.rendered_default_branch_protection["require_conversation_resolution"]
+  push_restrictions               = local.rendered_default_branch_protection["push_restrictions"]
 
   required_status_checks {
-    strict   = var.default_branch_protection["required_status_checks"]["strict"]
-    contexts = var.default_branch_protection["required_status_checks"]["contexts"]
+    strict   = local.rendered_default_branch_protection["required_status_checks"]["strict"]
+    contexts = local.rendered_default_branch_protection["required_status_checks"]["contexts"]
   }
 
   required_pull_request_reviews {
-    dismiss_stale_reviews = var.default_branch_protection["required_pull_request_reviews"]["dismiss_stale_reviews"]
-    restrict_dismissals   = var.default_branch_protection["required_pull_request_reviews"]["restrict_dismissals"]
-    dismissal_restrictions = var.default_branch_protection["required_pull_request_reviews"]["dismissal_restrictions"]
-    require_code_owner_reviews = var.default_branch_protection["required_pull_request_reviews"]["require_code_owner_reviews"]
-    required_approving_review_count = var.default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
+    dismiss_stale_reviews           = local.rendered_default_branch_protection["required_pull_request_reviews"]["dismiss_stale_reviews"]
+    restrict_dismissals             = local.rendered_default_branch_protection["required_pull_request_reviews"]["restrict_dismissals"]
+    dismissal_restrictions          = local.rendered_default_branch_protection["required_pull_request_reviews"]["dismissal_restrictions"]
+    require_code_owner_reviews      = local.rendered_default_branch_protection["required_pull_request_reviews"]["require_code_owner_reviews"]
+    required_approving_review_count = local.rendered_default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
   }
 
 }

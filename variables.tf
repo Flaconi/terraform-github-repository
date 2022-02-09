@@ -129,12 +129,6 @@ variable "gitignore_template" {
   description = "Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, \"Terraform\"."
 }
 
-variable "default_branch" {
-  type        = string
-  default     = "master"
-  description = "The name of the default branch of the repository."
-}
-
 variable "archived" {
   type        = bool
   default     = false
@@ -188,45 +182,26 @@ variable "pages" {
 
 variable "default_branch_protection" {
   type = object({
-    enforce_admins = bool
-    allows_deletions = bool
-    allows_force_pushes = bool
-    require_signed_commits = bool
-    required_linear_history = bool
-    require_conversation_resolution = bool
-    push_restrictions = list(string)
-    required_status_checks = object({
-      strict = bool
-      contexts = list(string)
-    })
-    required_pull_request_reviews = object({
-      dismiss_stale_reviews = bool
-      restrict_dismissals   = bool
-      dismissal_restrictions = list(string)
-      require_code_owner_reviews = bool
-      required_approving_review_count = number
-    })
+    enforce_admins                  = optional(bool)
+    allows_deletions                = optional(bool)
+    allows_force_pushes             = optional(bool)
+    require_signed_commits          = optional(bool)
+    required_linear_history         = optional(bool)
+    require_conversation_resolution = optional(bool)
+    push_restrictions               = optional(list(string))
+    required_status_checks = optional(object({
+      strict   = optional(bool)
+      contexts = optional(list(string))
+    }))
+    required_pull_request_reviews = optional(object({
+      dismiss_stale_reviews           = optional(bool)
+      restrict_dismissals             = optional(bool)
+      dismissal_restrictions          = optional(list(string))
+      require_code_owner_reviews      = optional(bool)
+      required_approving_review_count = optional(number)
+    }))
   })
-  default = {
-    enforce_admins = true
-    allows_deletions = false
-    allows_force_pushes = false
-    require_signed_commits = true
-    required_linear_history = false
-    require_conversation_resolution = false
-    push_restrictions = []
-    required_status_checks = {
-      strict = true
-      contexts = []
-    }
-    required_pull_request_reviews = {
-      dismiss_stale_reviews = true
-      restrict_dismissals   = false
-      dismissal_restrictions = []
-      require_code_owner_reviews = true
-      required_approving_review_count = 1
-    }
-  }
+  default     = {} # See defaults in locals.tf
   description = "Default branch protection settings."
 }
 

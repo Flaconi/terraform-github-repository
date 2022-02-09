@@ -68,24 +68,14 @@ module "example" {
 
   vulnerability_alerts = true
 
+  # Overwrite some settings for default branch
   default_branch_protection = {
-    enforce_admins = true
-    allows_deletions = false
-    allows_force_pushes = false
-    require_signed_commits = true
-    required_linear_history = false
-    require_conversation_resolution = false
-    push_restrictions = []
+    require_signed_commits = false
     required_status_checks = {
-      strict = true
       contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
     }
     required_pull_request_reviews = {
-      dismiss_stale_reviews = true
-      restrict_dismissals   = false
-      dismissal_restrictions = []
-      require_code_owner_reviews = true
-      required_approving_review_count = 1
+      require_code_owner_reviews = false
     }
   }
 
@@ -97,4 +87,8 @@ module "example" {
 
 output "repository" {
   value = module.example.repository
+}
+
+output "repository_branch_protection" {
+  value = module.example.repository_branch_protection
 }
