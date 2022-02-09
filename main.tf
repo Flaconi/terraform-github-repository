@@ -125,6 +125,4 @@ resource "github_branch_protection" "main" {
     require_code_owner_reviews      = local.rendered_default_branch_protection["required_pull_request_reviews"]["require_code_owner_reviews"]
     required_approving_review_count = local.rendered_default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
   }
-
-  depends_on = [github_repository.main]
 }
