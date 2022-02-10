@@ -1,10 +1,10 @@
 output "repository" {
-  value       = github_repository.main
+  value       = github_repository.this
   description = "Created repository"
 }
 
 output "repository_branch_protection" {
-  value       = github_branch_protection.main
+  value       = github_branch_protection.this
   description = "Default branch protection settings"
 }
 

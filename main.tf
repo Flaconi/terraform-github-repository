@@ -17,7 +17,7 @@ module "label" {
   regex_replace_chars = "/[^a-zA-Z0-9-_]/"
 }
 
-resource "github_repository" "main" {
+resource "github_repository" "this" {
   name = var.use_fullname ? module.label.id : module.label.name
 
   description  = var.description
@@ -74,24 +74,24 @@ resource "github_repository" "main" {
 resource "github_team_repository" "this" {
   for_each = local.teams
 
-  repository = github_repository.main.name
+  repository = github_repository.this.name
 
-  team_id    = data.github_team.main[each.key].id
+  team_id    = data.github_team.this[each.key].id
   permission = each.value
 }
 
 resource "github_repository_collaborator" "this" {
   for_each = var.collaborators
 
-  repository = github_repository.main.name
+  repository = github_repository.this.name
   username   = each.key
   permission = each.value
 }
 
-resource "github_issue_label" "main" {
+resource "github_issue_label" "this" {
   for_each = local.labels
 
-  repository = github_repository.main.name
+  repository = github_repository.this.name
 
   name  = each.value["name"]
   color = each.value["color"]
@@ -99,11 +99,11 @@ resource "github_issue_label" "main" {
   description = each.value["description"]
 }
 
-resource "github_branch_protection" "main" {
+resource "github_branch_protection" "this" {
   for_each = var.default_branch_protection_enabled ? toset(["default"]) : []
 
-  repository_id = github_repository.main.node_id
-  pattern       = github_repository.main.default_branch
+  repository_id = github_repository.this.node_id
+  pattern       = github_repository.this.default_branch
 
   enforce_admins                  = local.rendered_default_branch_protection["enforce_admins"]
   allows_deletions                = local.rendered_default_branch_protection["allows_deletions"]
@@ -130,7 +130,7 @@ resource "github_branch_protection" "main" {
 resource "github_repository_webhook" "this" {
   for_each = local.webhooks
 
-  repository = github_repository.main.name
+  repository = github_repository.this.name
 
   active = each.value["active"]
   events = each.value["events"]
