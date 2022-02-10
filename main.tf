@@ -128,7 +128,7 @@ resource "github_branch_protection" "this" {
 }
 
 resource "github_repository_webhook" "this" {
-  for_each = local.webhooks
+  for_each = local.rendered_webhooks
 
   repository = github_repository.this.name
 
