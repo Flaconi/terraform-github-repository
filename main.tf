@@ -127,6 +127,16 @@ resource "github_branch_protection" "this" {
   }
 }
 
+resource "github_actions_secret" "this" {
+  for_each = var.secrets
+
+  repository = github_repository.this.name
+
+  secret_name     = each.key
+  encrypted_value = lookup(each.value, "encrypted_value", null)
+  plaintext_value = lookup(each.value, "plaintext_value", null)
+}
+
 resource "github_repository_webhook" "this" {
   for_each = local.rendered_webhooks
 

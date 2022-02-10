@@ -221,6 +221,22 @@ variable "issue_labels" {
   description = "List of issue labels on the repository."
 }
 
+variable "secrets" {
+  type = map(object({
+    encrypted_value = optional(string)
+    plaintext_value = optional(string)
+  }))
+  default     = {}
+  description = "Repository secrets."
+
+  validation {
+    condition = length(var.secrets) > 0 ? alltrue([
+      for k, v in var.secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
+    ]) : true
+    error_message = "Either encrypted or plaintext value should be set, but not both."
+  }
+}
+
 variable "topics" {
   type        = list(string)
   default     = []
