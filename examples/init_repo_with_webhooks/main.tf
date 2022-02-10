@@ -59,5 +59,5 @@ output "repository" {
 }
 
 output "webhook_urls" {
-  value     = module.example.repository_webhook_urls
+  value = module.example.repository_webhook_urls
 }
