@@ -129,12 +129,6 @@ variable "gitignore_template" {
   description = "Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, \"Terraform\"."
 }
 
-variable "default_branch" {
-  type        = string
-  default     = "master"
-  description = "The name of the default branch of the repository."
-}
-
 variable "archived" {
   type        = bool
   default     = false
@@ -150,7 +144,7 @@ variable "archive_on_destroy" {
 variable "teams" {
   type        = map(string)
   default     = {}
-  description = "Map of organization teams with permissions."
+  description = "Map of organization team names with permissions."
 
   validation {
     condition = length(var.teams) > 0 ? alltrue([
@@ -188,44 +182,33 @@ variable "pages" {
 
 variable "default_branch_protection_enabled" {
   type        = bool
-  default     = false
-  description = "Do we want to enable branch protection for the default branch"
-}
-
-variable "default_branch_protection_enforce_admins" {
-  type        = bool
-  default     = false
-  description = "Boolean, setting this to true enforces status checks for repository administrators."
-}
-
-variable "default_branch_protection_required_status_checks_strict" {
-  type        = bool
   default     = true
-  description = "Require branches to be up to date before merging. Defaults to false."
+  description = "Set to `false` if you want to disable branch protection for default branch"
 }
 
-variable "default_branch_protection_required_status_checks_contexts" {
-  type        = list(string)
-  default     = []
-  description = "List of status checks, e.g. travis"
-}
-
-variable "default_branch_protection_dismiss_stale_reviews" {
-  type        = bool
-  default     = true
-  description = "Dismiss approved reviews automatically when a new commit is pushed. Defaults to false."
-}
-
-variable "default_branch_protection_require_code_owner_reviews" {
-  type        = bool
-  default     = false
-  description = "Require an approved review in pull requests including files with a designated code owner. Defaults to false."
-}
-
-variable "default_branch_protection_restrictions_teams" {
-  type        = list(string)
-  default     = []
-  description = "The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository."
+variable "default_branch_protection" {
+  type = object({
+    enforce_admins                  = optional(bool)
+    allows_deletions                = optional(bool)
+    allows_force_pushes             = optional(bool)
+    require_signed_commits          = optional(bool)
+    required_linear_history         = optional(bool)
+    require_conversation_resolution = optional(bool)
+    push_restrictions               = optional(list(string))
+    required_status_checks = optional(object({
+      strict   = optional(bool)
+      contexts = optional(list(string))
+    }))
+    required_pull_request_reviews = optional(object({
+      dismiss_stale_reviews           = optional(bool)
+      restrict_dismissals             = optional(bool)
+      dismissal_restrictions          = optional(list(string))
+      require_code_owner_reviews      = optional(bool)
+      required_approving_review_count = optional(number)
+    }))
+  })
+  default     = {} # See defaults in locals.tf
+  description = "Default branch protection settings."
 }
 
 variable "issue_labels" {

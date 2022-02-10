@@ -68,10 +68,16 @@ module "example" {
 
   vulnerability_alerts = true
 
-  default_branch_protection_enforce_admins                  = true
-  default_branch_protection_enabled                         = true
-  default_branch_protection_required_status_checks_contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
-  default_branch_protection_require_code_owner_reviews      = true
+  # Overwrite some settings for default branch
+  default_branch_protection = {
+    require_signed_commits = false
+    required_status_checks = {
+      contexts = ["Travis CI - Branch", "Travis CI - Pull Request"]
+    }
+    required_pull_request_reviews = {
+      require_code_owner_reviews = false
+    }
+  }
 
   depends_on = [
     github_team.maintainers,
@@ -81,4 +87,8 @@ module "example" {
 
 output "repository" {
   value = module.example.repository
+}
+
+output "repository_branch_protection" {
+  value = module.example.repository_branch_protection
 }

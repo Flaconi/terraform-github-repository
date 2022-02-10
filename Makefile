@@ -5,7 +5,7 @@ TF_PROJECTS = "."
 # -------------------------------------------------------------------------------------------------
 # Terraform configuration
 # -------------------------------------------------------------------------------------------------
-TF_VERSION = 0.13.7
+TF_VERSION = 0.14.11
 
 
 # -------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ test:
 			echo "OK"; \
 		else \
 			echo "Failed"; \
-			docker run $$(tty -s && echo "-it" || echo) --rm-v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
+			docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" --entrypoint=rm hashicorp/terraform:$(TF_VERSION) -rf .terraform/ || true; \
 			exit 1; \
 		fi; \
 		echo; \

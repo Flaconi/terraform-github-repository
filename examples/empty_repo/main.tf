@@ -31,6 +31,8 @@ module "example" {
   allow_rebase_merge = true
 
   vulnerability_alerts = true
+
+  default_branch_protection_enabled = false
 }
 
 output "repository" {

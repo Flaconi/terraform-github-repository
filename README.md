@@ -7,6 +7,12 @@
 This Terraform module manages GitHub repositories. 
 Initially it was a backport from https://github.com/innovationnorway/terraform-github-repository which was written for 0.12 and as dynamic blocks were removed to be complied with 0.11 - this module will only allow branch protection for one branch, the default branch ( defaults to master ).
 
+## Important notice
+
+:warning: This module uses experimental optional attributes.
+
+More about it [here](https://www.terraform.io/language/expressions/type-constraints#experimental-optional-object-type-attributes).
+
 ## Example Usage
 
 ### Create private repository
@@ -123,7 +129,7 @@ module "example_repo" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | >= 4.19.2 |
 
 ## Providers
@@ -163,14 +169,8 @@ module "example_repo" {
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `policy` or `role`) | `list(string)` | `[]` | no |
 | <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | Meaningful only during create; set  to `true` to produce an initial commit in the repository. | `bool` | `true` | no |
 | <a name="input_collaborators"></a> [collaborators](#input\_collaborators) | Map of users with permissions. | `map(string)` | `{}` | no |
-| <a name="input_default_branch"></a> [default\_branch](#input\_default\_branch) | The name of the default branch of the repository. | `string` | `"master"` | no |
-| <a name="input_default_branch_protection_dismiss_stale_reviews"></a> [default\_branch\_protection\_dismiss\_stale\_reviews](#input\_default\_branch\_protection\_dismiss\_stale\_reviews) | Dismiss approved reviews automatically when a new commit is pushed. Defaults to false. | `bool` | `true` | no |
-| <a name="input_default_branch_protection_enabled"></a> [default\_branch\_protection\_enabled](#input\_default\_branch\_protection\_enabled) | Do we want to enable branch protection for the default branch | `bool` | `false` | no |
-| <a name="input_default_branch_protection_enforce_admins"></a> [default\_branch\_protection\_enforce\_admins](#input\_default\_branch\_protection\_enforce\_admins) | Boolean, setting this to true enforces status checks for repository administrators. | `bool` | `false` | no |
-| <a name="input_default_branch_protection_require_code_owner_reviews"></a> [default\_branch\_protection\_require\_code\_owner\_reviews](#input\_default\_branch\_protection\_require\_code\_owner\_reviews) | Require an approved review in pull requests including files with a designated code owner. Defaults to false. | `bool` | `false` | no |
-| <a name="input_default_branch_protection_required_status_checks_contexts"></a> [default\_branch\_protection\_required\_status\_checks\_contexts](#input\_default\_branch\_protection\_required\_status\_checks\_contexts) | List of status checks, e.g. travis | `list(string)` | `[]` | no |
-| <a name="input_default_branch_protection_required_status_checks_strict"></a> [default\_branch\_protection\_required\_status\_checks\_strict](#input\_default\_branch\_protection\_required\_status\_checks\_strict) | Require branches to be up to date before merging. Defaults to false. | `bool` | `true` | no |
-| <a name="input_default_branch_protection_restrictions_teams"></a> [default\_branch\_protection\_restrictions\_teams](#input\_default\_branch\_protection\_restrictions\_teams) | The list of team slugs with push access. Always use slug of the team, not its name. Each team already has to have access to the repository. | `list(string)` | `[]` | no |
+| <a name="input_default_branch_protection"></a> [default\_branch\_protection](#input\_default\_branch\_protection) | Default branch protection settings. | <pre>object({<br>    enforce_admins                  = optional(bool)<br>    allows_deletions                = optional(bool)<br>    allows_force_pushes             = optional(bool)<br>    require_signed_commits          = optional(bool)<br>    required_linear_history         = optional(bool)<br>    require_conversation_resolution = optional(bool)<br>    push_restrictions               = optional(list(string))<br>    required_status_checks = optional(object({<br>      strict   = optional(bool)<br>      contexts = optional(list(string))<br>    }))<br>    required_pull_request_reviews = optional(object({<br>      dismiss_stale_reviews           = optional(bool)<br>      restrict_dismissals             = optional(bool)<br>      dismissal_restrictions          = optional(list(string))<br>      require_code_owner_reviews      = optional(bool)<br>      required_approving_review_count = optional(number)<br>    }))<br>  })</pre> | `{}` | no |
+| <a name="input_default_branch_protection_enabled"></a> [default\_branch\_protection\_enabled](#input\_default\_branch\_protection\_enabled) | Set to `false` if you want to disable branch protection for default branch | `bool` | `true` | no |
 | <a name="input_delete_branch_on_merge"></a> [delete\_branch\_on\_merge](#input\_delete\_branch\_on\_merge) | Automatically delete head branch after a pull request is merged. | `bool` | `true` | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `name`, `namespace`, `tenant`, etc. | `string` | `"-"` | no |
 | <a name="input_description"></a> [description](#input\_description) | A description of the repository. | `string` | `""` | no |
@@ -185,7 +185,7 @@ module "example_repo" {
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, e.g. `terraform`, `product`, `mobile` etc. | `string` | `null` | no |
 | <a name="input_pages"></a> [pages](#input\_pages) | The repository's GitHub Pages configuration. | <pre>object({<br>    source = object({<br>      branch = string<br>      path   = string<br>    })<br>  })</pre> | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | `map(string)` | `{}` | no |
-| <a name="input_teams"></a> [teams](#input\_teams) | Map of organization teams with permissions. | `map(string)` | `{}` | no |
+| <a name="input_teams"></a> [teams](#input\_teams) | Map of organization team names with permissions. | `map(string)` | `{}` | no |
 | <a name="input_template"></a> [template](#input\_template) | Use a template repository to create this repository. | <pre>object({<br>    owner      = string<br>    repository = string<br>  })</pre> | `null` | no |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | A customer identifier, indicating who this instance of a resource is for. Could be used for application grouping. | `string` | `null` | no |
 | <a name="input_topics"></a> [topics](#input\_topics) | A list of topics to add to the repository. | `list(string)` | `[]` | no |
@@ -198,6 +198,7 @@ module "example_repo" {
 | Name | Description |
 |------|-------------|
 | <a name="output_repository"></a> [repository](#output\_repository) | Created repository |
+| <a name="output_repository_branch_protection"></a> [repository\_branch\_protection](#output\_repository\_branch\_protection) | Default branch protection settings |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
