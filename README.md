@@ -142,6 +142,7 @@ module "example_repo" {
 
 | Name | Type |
 |------|------|
+| [github_actions_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch_protection.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_issue_label.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/issue_label) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
@@ -179,6 +180,7 @@ module "example_repo" {
 | <a name="input_license_template"></a> [license\_template](#input\_license\_template) | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, e.g. `terraform`, `product`, `mobile` etc. | `string` | `null` | no |
 | <a name="input_pages"></a> [pages](#input\_pages) | The repository's GitHub Pages configuration. | <pre>object({<br>    source = object({<br>      branch = string<br>      path   = string<br>    })<br>  })</pre> | `null` | no |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | Repository secrets. | <pre>map(object({<br>    encrypted_value = optional(string)<br>    plaintext_value = optional(string)<br>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | `map(string)` | `{}` | no |
 | <a name="input_teams"></a> [teams](#input\_teams) | Map of organization team names with permissions. | `map(string)` | `{}` | no |
 | <a name="input_template"></a> [template](#input\_template) | Use a template repository to create this repository. | <pre>object({<br>    owner      = string<br>    repository = string<br>  })</pre> | `null` | no |
@@ -195,6 +197,7 @@ module "example_repo" {
 |------|-------------|
 | <a name="output_repository"></a> [repository](#output\_repository) | Created repository |
 | <a name="output_repository_branch_protection"></a> [repository\_branch\_protection](#output\_repository\_branch\_protection) | Default branch protection settings |
+| <a name="output_repository_secrets"></a> [repository\_secrets](#output\_repository\_secrets) | A map of create secret names |
 | <a name="output_repository_webhook_urls"></a> [repository\_webhook\_urls](#output\_repository\_webhook\_urls) | Webhook URLs |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
