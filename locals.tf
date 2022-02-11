@@ -12,7 +12,7 @@ locals {
   }
 
   # These settings are default for branch protection
-  default_branch_protection = {
+  branch_protection_defaults = {
     enforce_admins                  = true
     allows_deletions                = false
     allows_force_pushes             = false
@@ -40,7 +40,7 @@ locals {
   # You have to use `if .. else` condition to sort it out.
   clean_default_branch_protection = {
     for k, v in var.default_branch_protection :
-    k => (v != null ? v : local.default_branch_protection[k])
+    k => (v != null ? v : local.branch_protection_defaults[k])
   }
   rendered_default_branch_protection = {
     enforce_admins                  = local.clean_default_branch_protection["enforce_admins"]
@@ -52,11 +52,11 @@ locals {
     push_restrictions               = local.clean_default_branch_protection["push_restrictions"]
     required_status_checks = {
       for k, v in local.clean_default_branch_protection["required_status_checks"] :
-      k => (v != null ? v : local.default_branch_protection["required_status_checks"][k])
+      k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
     }
     required_pull_request_reviews = {
       for k, v in local.clean_default_branch_protection["required_pull_request_reviews"] :
-      k => (v != null ? v : local.default_branch_protection["required_pull_request_reviews"][k])
+      k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])
     }
   }
 
@@ -68,7 +68,7 @@ locals {
     }
   }
   # Combine defaults with input parameters
-  webhooks = {
+  rendered_webhooks = {
     for v in var.webhooks : v["ident"] => {
       active = v["active"] != null ? v["active"] : local.webhook_defaults["active"]
       events = v["events"]
