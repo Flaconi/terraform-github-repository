@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Flaconi/terraform-github-repository.svg?branch=master)](https://travis-ci.com/Flaconi/terraform-github-repository)
 [![Tag](https://img.shields.io/github/tag/Flaconi/terraform-github-repository.svg)](https://github.com/Flaconi/terraform-github-repository/releases)
+[![Terraform](https://img.shields.io/badge/Terraform--registry-github--repository-brightgreen.svg)](https://registry.terraform.io/modules/Flaconi/repository/github/)
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 This Terraform module manages GitHub repositories. 
@@ -19,16 +20,15 @@ More about it [here](https://www.terraform.io/language/expressions/type-constrai
 
 ```hcl
 module "my_pets_website_repo" {
-  source = "git::https://github.com/flaconi/terraform-github-repository.git?ref=master"
+  source = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
-  name = "my-pets-website"
-
+  name        = "my-pets-website"
   description = "My pets codebase."
-
-  visibility = "private"
+  visibility  = "private"
 
   gitignore_template = "Node"
 
+  default_branch_protection_enabled = false
 }
 ```
 
@@ -36,18 +36,16 @@ module "my_pets_website_repo" {
 
 ```hcl
 module "terraform_my_pets_repo" {
-  source  = "git::https://github.com/flaconi/terraform-github-repository.git?ref=master"
+  source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
-  name = "terraform-my-pets"
-
+  namespace   = "terraform"
+  tenant      = "my"
+  name        = "pets"
   description = "Terraform configuration for my pets."
-
-  visibility = "public"
+  visibility  = "public"
 
   gitignore_template = "Terraform"
-  
-  license_template = "mit"
-
+  license_template   = "mit"
 }
 ```
 
@@ -55,10 +53,9 @@ module "terraform_my_pets_repo" {
 
 ```hcl
 module "example_repo" {
-  source  = "git::https://github.com/flaconi/terraform-github-repository.git?ref=master"
+  source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
-  name = "example"
-
+  name        = "example"
   description = "My example codebase"
 
   visibility = "private"
@@ -69,31 +66,27 @@ module "example_repo" {
 }
 ```
 
-### Add branch protection
+### Set branch protection options
 
 ```hcl
 module "example_repo" {
-  source  = "git::https://github.com/flaconi/terraform-github-repository.git?ref=master"
+  source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
-  name = "example"
-
+  name        = "example"
   description = "My example codebase"
 
   visibility = "private"
-
-  default_branch_protection_enabled = true
-
-  # default_branch_protection_enforce_admins = true
   
-  # default_branch_protection_required_status_checks_strict = true
-
-  default_branch_protection_required_status_checks_contexts = ["ci/travis"]
-
-  # default_branch_protection_dismiss_stale_reviews" = true
-
-  default_branch_protection_dismissal_teams = ["team1","team2"]
-  # default_branch_protection_require_code_owner_reviews = false
-  default_branch_protection_dismiss_stale_reviews = true
+  # Overwrite some settings for default branch
+  default_branch_protection = {
+    required_status_checks = {
+      contexts = ["ci/travis"]
+    }
+    required_pull_request_reviews = {
+      dismiss_stale_reviews  = true
+      dismissal_restrictions = ["team1","team2"]
+    }
+  }
 }
 ```
 
@@ -101,19 +94,20 @@ module "example_repo" {
 
 ```hcl
 module "example_repo" {
-  source  = "git::https://github.com/flaconi/terraform-github-repository.git?ref=master"
+  source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
-  name = "example"
-
+  name        = "example"
   description = "My example codebase"
 
   visibility = "private"
+
+  default_branch_protection_enabled = false
 
   issue_labels = [
     {
       name        = "bug"
       color       = "d73a4a"
-      description = null
+      description = "This is a bug."
     },
     {
       name        = "wontfix"
