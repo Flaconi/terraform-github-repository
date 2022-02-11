@@ -11,6 +11,14 @@ locals {
     }
   }
 
+  deploy_keys = { for key in var.deploy_keys :
+    replace(lower(key["title"]), " ", "-") => {
+      title     = key["title"]
+      key       = key["key"]
+      read_only = key["read_only"]
+    }
+  }
+
   # These settings are default for branch protection
   branch_protection_defaults = {
     enforce_admins                  = true

@@ -237,6 +237,16 @@ variable "secrets" {
   }
 }
 
+variable "deploy_keys" {
+  type = list(object({
+    title     = string
+    key       = string
+    read_only = bool
+  }))
+  default     = []
+  description = "List of deploy keys configurations."
+}
+
 variable "topics" {
   type        = list(string)
   default     = []
@@ -271,5 +281,5 @@ variable "webhooks" {
     })
   }))
   default     = []
-  description = "List of webhook configurations"
+  description = "List of webhook configurations."
 }

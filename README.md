@@ -147,6 +147,7 @@ module "example_repo" {
 | [github_issue_label.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/issue_label) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [github_repository_collaborator.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator) | resource |
+| [github_repository_deploy_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_deploy_key) | resource |
 | [github_repository_webhook.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [github_team.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
@@ -169,6 +170,7 @@ module "example_repo" {
 | <a name="input_default_branch_protection_enabled"></a> [default\_branch\_protection\_enabled](#input\_default\_branch\_protection\_enabled) | Set to `false` if you want to disable branch protection for default branch | `bool` | `true` | no |
 | <a name="input_delete_branch_on_merge"></a> [delete\_branch\_on\_merge](#input\_delete\_branch\_on\_merge) | Automatically delete head branch after a pull request is merged. | `bool` | `true` | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `name`, `namespace`, `tenant`, etc. | `string` | `"-"` | no |
+| <a name="input_deploy_keys"></a> [deploy\_keys](#input\_deploy\_keys) | List of deploy keys configurations. | <pre>list(object({<br>    title     = string<br>    key       = string<br>    read_only = bool<br>  }))</pre> | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | A description of the repository. | `string` | `""` | no |
 | <a name="input_gitignore_template"></a> [gitignore\_template](#input\_gitignore\_template) | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
 | <a name="input_has_issues"></a> [has\_issues](#input\_has\_issues) | Set  to `false` to disable the GitHub Issues features on the repository. | `bool` | `true` | no |
@@ -189,7 +191,7 @@ module "example_repo" {
 | <a name="input_use_fullname"></a> [use\_fullname](#input\_use\_fullname) | Set 'true' to use `namespace-tenant-name` for github repository name, else `name` | `bool` | `true` | no |
 | <a name="input_visibility"></a> [visibility](#input\_visibility) | Set to `public` to create a public (e.g. open source) repository. | `string` | `"private"` | no |
 | <a name="input_vulnerability_alerts"></a> [vulnerability\_alerts](#input\_vulnerability\_alerts) | Set to `true` to enable security alerts for vulnerable dependencies. Enabling requires alerts to be enabled on the owner level. | `bool` | `false` | no |
-| <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | List of webhook configurations | <pre>list(object({<br>    ident  = string # some unique string to identify this webhook<br>    active = optional(bool)<br>    events = list(string)<br>    configuration = object({<br>      url          = string<br>      content_type = string<br>      secret       = optional(string)<br>      insecure_ssl = optional(bool)<br>    })<br>  }))</pre> | `[]` | no |
+| <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | List of webhook configurations. | <pre>list(object({<br>    ident  = string # some unique string to identify this webhook<br>    active = optional(bool)<br>    events = list(string)<br>    configuration = object({<br>      url          = string<br>      content_type = string<br>      secret       = optional(string)<br>      insecure_ssl = optional(bool)<br>    })<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
