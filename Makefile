@@ -141,6 +141,7 @@ terraform-fmt: _pull-tf
 	@if docker run $$(tty -s && echo "-it" || echo) --rm \
 		-v "$(CURRENT_DIR):/data" hashicorp/terraform:$(TF_VERSION) fmt \
 			$$(test "$(_WRITE)" = "false" && echo "-check=true" || echo "-write=true") \
+			-recursive \
 			-diff=true \
 			-list=true \
 			/data; then \

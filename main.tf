@@ -126,3 +126,19 @@ resource "github_branch_protection" "main" {
     required_approving_review_count = local.rendered_default_branch_protection["required_pull_request_reviews"]["required_approving_review_count"]
   }
 }
+
+resource "github_repository_webhook" "this" {
+  for_each = local.webhooks
+
+  repository = github_repository.main.name
+
+  active = each.value["active"]
+  events = each.value["events"]
+
+  configuration {
+    url          = each.value["configuration"]["url"]
+    content_type = each.value["configuration"]["content_type"]
+    secret       = each.value["configuration"]["secret"]
+    insecure_ssl = each.value["configuration"]["insecure_ssl"]
+  }
+}
