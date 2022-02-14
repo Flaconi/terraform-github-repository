@@ -1,16 +1,11 @@
-variable "github_token" {
+variable "token" {
   type    = string
   default = ""
 }
 
-variable "github_owner" {
+variable "owner" {
   type    = string
   default = ""
-}
-
-provider "github" {
-  token = var.github_token
-  owner = var.github_owner
 }
 
 data "github_user" "current" {
@@ -37,6 +32,9 @@ resource "github_team" "developers" {
 # This will create `terraform-example-test-teams` repository
 module "example" {
   source = "../../"
+
+  token = var.token
+  owner = var.owner
 
   namespace   = "terraform"
   tenant      = "example"
