@@ -137,6 +137,16 @@ resource "github_actions_secret" "this" {
   plaintext_value = lookup(each.value, "plaintext_value", null)
 }
 
+resource "github_repository_deploy_key" "this" {
+  for_each = local.deploy_keys
+
+  repository = github_repository.this.name
+
+  title     = each.value["title"]
+  key       = each.value["key"]
+  read_only = each.value["read_only"]
+}
+
 resource "github_repository_webhook" "this" {
   for_each = local.rendered_webhooks
 
