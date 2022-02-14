@@ -1,3 +1,15 @@
+variable "token" {
+  description = "Github token to use when adding membership"
+  type        = string
+  default     = ""
+}
+
+variable "owner" {
+  description = "Github organization name"
+  type        = string
+  default     = ""
+}
+
 variable "name" {
   type        = string
   description = "The name of the repository."
