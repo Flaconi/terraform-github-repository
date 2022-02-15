@@ -25,9 +25,10 @@ resource "github_repository" "this" {
 
   visibility = var.visibility
 
-  has_issues   = var.has_issues
-  has_projects = var.has_projects
-  has_wiki     = var.has_wiki
+  has_downloads = var.has_downloads
+  has_issues    = var.has_issues
+  has_projects  = var.has_projects
+  has_wiki      = var.has_wiki
 
   is_template = var.is_template
 
