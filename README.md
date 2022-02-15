@@ -173,6 +173,7 @@ module "example_repo" {
 | <a name="input_deploy_keys"></a> [deploy\_keys](#input\_deploy\_keys) | List of deploy keys configurations. | <pre>list(object({<br>    title     = string<br>    key       = string<br>    read_only = bool<br>  }))</pre> | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | A description of the repository. | `string` | `""` | no |
 | <a name="input_gitignore_template"></a> [gitignore\_template](#input\_gitignore\_template) | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
+| <a name="input_has_downloads"></a> [has\_downloads](#input\_has\_downloads) | Set to `true` to enable the (deprecated) downloads features on the repository. | `bool` | `null` | no |
 | <a name="input_has_issues"></a> [has\_issues](#input\_has\_issues) | Set  to `false` to disable the GitHub Issues features on the repository. | `bool` | `true` | no |
 | <a name="input_has_projects"></a> [has\_projects](#input\_has\_projects) | Set  to `true` to enable the GitHub Projects features on the repository. | `bool` | `false` | no |
 | <a name="input_has_wiki"></a> [has\_wiki](#input\_has\_wiki) | Set  to `true` to enable the GitHub Wiki features on the repository. | `bool` | `false` | no |

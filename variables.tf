@@ -57,6 +57,12 @@ variable "visibility" {
   description = "Set to `public` to create a public (e.g. open source) repository."
 }
 
+variable "has_downloads" {
+  type        = bool
+  default     = null
+  description = "Set to `true` to enable the (deprecated) downloads features on the repository."
+}
+
 variable "has_issues" {
   type        = bool
   default     = true
