@@ -1,6 +1,7 @@
 # GitHub Repository Module
 
-[![Build Status](https://travis-ci.com/Flaconi/terraform-github-repository.svg?branch=master)](https://travis-ci.com/Flaconi/terraform-github-repository)
+[![lint](https://github.com/flaconi/terraform-github-repository/workflows/linting/badge.svg?branch=master)](https://github.com/flaconi/terraform-github-repository/actions?query=workflow%3Alinting)
+[![test](https://github.com/flaconi/terraform-github-repository/workflows/testing/badge.svg)](https://github.com/flaconi/terraform-github-repository/actions?query=workflow%3Atesting)
 [![Tag](https://img.shields.io/github/tag/Flaconi/terraform-github-repository.svg)](https://github.com/Flaconi/terraform-github-repository/releases)
 [![Terraform](https://img.shields.io/badge/Terraform--registry-github--repository-brightgreen.svg)](https://registry.terraform.io/modules/Flaconi/repository/github/)
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
@@ -209,4 +210,4 @@ module "example_repo" {
 
 [MIT](LICENSE)
 
-Copyright (c) 2021 [Flaconi GmbH](https://github.com/Flaconi)
+Copyright (c) 2019-2022 [Flaconi GmbH](https://github.com/Flaconi)
