@@ -73,12 +73,12 @@ resource "github_repository" "this" {
 }
 
 resource "github_team_repository" "this" {
-  for_each = local.teams
+  for_each = local.team_ids
 
   repository = github_repository.this.name
 
-  team_id    = data.github_team.this[each.key].id
-  permission = each.value
+  team_id    = each.value["id"]
+  permission = each.value["permission"]
 }
 
 resource "github_repository_collaborator" "this" {

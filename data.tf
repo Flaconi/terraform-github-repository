@@ -1,5 +1,5 @@
 data "github_team" "this" {
-  for_each = local.teams
+  for_each = local.team_names
 
   slug = each.key
 }

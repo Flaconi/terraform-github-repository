@@ -45,10 +45,16 @@ module "example" {
 
   visibility = "public"
 
-  teams = {
-    (github_team.maintainers.name) = "maintain"
-    (github_team.developers.name)  = "push"
-  }
+  teams = [
+    {
+      name       = github_team.maintainers.name
+      permission = "maintain"
+    },
+    {
+      name       = github_team.developers.name
+      permission = "push"
+    }
+  ]
 
   collaborators = {
     (data.github_user.current.login) = "admin"
