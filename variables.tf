@@ -148,14 +148,18 @@ variable "archive_on_destroy" {
 }
 
 variable "teams" {
-  type        = map(string)
-  default     = {}
-  description = "Map of organization team names with permissions."
+  type = list(object({
+    id         = optional(string)
+    name       = string
+    permission = string
+  }))
+  default     = []
+  description = "List of teams with permissions. Specify Team ID to avoid additional requests to GitHub API."
 
   validation {
     condition = length(var.teams) > 0 ? alltrue([
-      for permission in distinct(values(var.teams)) :
-      contains(["pull", "push", "maintain", "triage", "admin"], permission)
+      for team in var.teams :
+      contains(["pull", "push", "maintain", "triage", "admin"], team["permission"])
     ]) : true
     error_message = "Only \"pull\", \"push\", \"maintain\", \"triage\" or \"admin\" permissions are allowed."
   }

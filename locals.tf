@@ -1,6 +1,17 @@
 locals {
-  teams = { for team, permission in var.teams :
-    replace(lower(team), " ", "-") => permission
+  team_slugs = { for team in var.teams :
+    replace(lower(team["name"]), " ", "-") => team
+  }
+
+  team_names = toset([for slug, team in local.team_slugs :
+    slug if team["id"] == null
+  ])
+
+  team_ids = { for slug, team in local.team_slugs :
+    slug => {
+      id         = team["id"] != null ? team["id"] : data.github_team.this[slug].id
+      permission = team["permission"]
+    }
   }
 
   labels = { for label in var.issue_labels :

@@ -53,6 +53,10 @@ module "terraform_my_pets_repo" {
 ### Add collaborators and teams
 
 ```hcl
+data "github_team" "developers" {
+  slug = "developers"
+}
+
 module "example_repo" {
   source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
 
@@ -61,9 +65,18 @@ module "example_repo" {
 
   visibility = "private"
 
-  teams = {
-    security = "admin"
-  }
+  teams = [
+    {
+      name      = "security"
+      permisson = "admin"
+    },
+    {
+      # Specify Team ID to use external data source
+      id        = data.github_team.developers.id
+      name      = "developers"
+      permisson = "push"
+    }
+  ]
 }
 ```
 
@@ -186,7 +199,7 @@ module "example_repo" {
 | <a name="input_pages"></a> [pages](#input\_pages) | The repository's GitHub Pages configuration. | <pre>object({<br>    source = object({<br>      branch = string<br>      path   = string<br>    })<br>  })</pre> | `null` | no |
 | <a name="input_secrets"></a> [secrets](#input\_secrets) | Repository secrets. | <pre>map(object({<br>    encrypted_value = optional(string)<br>    plaintext_value = optional(string)<br>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')`) | `map(string)` | `{}` | no |
-| <a name="input_teams"></a> [teams](#input\_teams) | Map of organization team names with permissions. | `map(string)` | `{}` | no |
+| <a name="input_teams"></a> [teams](#input\_teams) | List of teams with permissions. Specify Team ID to avoid additional requests to GitHub API. | <pre>list(object({<br>    id         = optional(string)<br>    name       = string<br>    permission = string<br>  }))</pre> | `[]` | no |
 | <a name="input_template"></a> [template](#input\_template) | Use a template repository to create this repository. | <pre>object({<br>    owner      = string<br>    repository = string<br>  })</pre> | `null` | no |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | A customer identifier, indicating who this instance of a resource is for. Could be used for application grouping. | `string` | `null` | no |
 | <a name="input_topics"></a> [topics](#input\_topics) | A list of topics to add to the repository. | `list(string)` | `[]` | no |
