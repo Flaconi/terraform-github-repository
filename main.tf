@@ -15,7 +15,7 @@ module "label" {
 
   label_order         = ["namespace", "tenant", "name"]
   label_value_case    = "none"
-  regex_replace_chars = "/[^a-zA-Z0-9-_]/"
+  regex_replace_chars = "/[^a-zA-Z0-9-_.]/"
 }
 
 resource "github_repository" "this" {
