@@ -61,23 +61,56 @@ locals {
     for k, v in var.default_branch_protection :
     k => (v != null ? v : local.branch_protection_defaults[k])
   }
-  rendered_default_branch_protection = {
-    enforce_admins                  = local.clean_default_branch_protection["enforce_admins"]
-    allows_deletions                = local.clean_default_branch_protection["allows_deletions"]
-    allows_force_pushes             = local.clean_default_branch_protection["allows_force_pushes"]
-    require_signed_commits          = local.clean_default_branch_protection["require_signed_commits"]
-    required_linear_history         = local.clean_default_branch_protection["required_linear_history"]
-    require_conversation_resolution = local.clean_default_branch_protection["require_conversation_resolution"]
-    push_restrictions               = local.clean_default_branch_protection["push_restrictions"]
-    required_status_checks = {
-      for k, v in local.clean_default_branch_protection["required_status_checks"] :
-      k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
+  clean_branch_protection = var.branch_protection != null ? {
+    for name, settings in var.branch_protection :
+    name => {
+      for k, v in settings :
+      k => (v != null ? v : local.branch_protection_defaults[k])
     }
-    required_pull_request_reviews = {
-      for k, v in local.clean_default_branch_protection["required_pull_request_reviews"] :
-      k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])
-    }
-  }
+  } : {}
+  rendered_branch_protection = merge(
+    # Branch protection rules for default branch
+    var.default_branch_protection_enabled ? {
+      default = {
+        enforce_admins                  = local.clean_default_branch_protection["enforce_admins"]
+        allows_deletions                = local.clean_default_branch_protection["allows_deletions"]
+        allows_force_pushes             = local.clean_default_branch_protection["allows_force_pushes"]
+        require_signed_commits          = local.clean_default_branch_protection["require_signed_commits"]
+        required_linear_history         = local.clean_default_branch_protection["required_linear_history"]
+        require_conversation_resolution = local.clean_default_branch_protection["require_conversation_resolution"]
+        push_restrictions               = local.clean_default_branch_protection["push_restrictions"]
+        required_status_checks = {
+          for k, v in local.clean_default_branch_protection["required_status_checks"] :
+          k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
+        }
+        required_pull_request_reviews = {
+          for k, v in local.clean_default_branch_protection["required_pull_request_reviews"] :
+          k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])
+        }
+      }
+    } : {},
+    # Additional branch protection rules
+    var.branch_protection != null ? {
+      for name, settings in var.branch_protection :
+      name => {
+        enforce_admins                  = local.clean_branch_protection[name]["enforce_admins"]
+        allows_deletions                = local.clean_branch_protection[name]["allows_deletions"]
+        allows_force_pushes             = local.clean_branch_protection[name]["allows_force_pushes"]
+        require_signed_commits          = local.clean_branch_protection[name]["require_signed_commits"]
+        required_linear_history         = local.clean_branch_protection[name]["required_linear_history"]
+        require_conversation_resolution = local.clean_branch_protection[name]["require_conversation_resolution"]
+        push_restrictions               = local.clean_branch_protection[name]["push_restrictions"]
+        required_status_checks = {
+          for k, v in local.clean_branch_protection[name]["required_status_checks"] :
+          k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
+        }
+        required_pull_request_reviews = {
+          for k, v in local.clean_branch_protection[name]["required_pull_request_reviews"] :
+          k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])
+        }
+      }
+    } : {}
+  )
 
   # These settings are default for webhooks
   webhook_defaults = {
