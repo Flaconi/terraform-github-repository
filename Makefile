@@ -5,7 +5,7 @@ TF_PROJECTS = "."
 # -------------------------------------------------------------------------------------------------
 # Terraform configuration
 # -------------------------------------------------------------------------------------------------
-TF_VERSION = 0.14.11
+TF_VERSION = 0.15.5
 
 
 # -------------------------------------------------------------------------------------------------
@@ -66,14 +66,10 @@ test:
 		echo "################################################################################"; \
 		if docker run $$(tty -s && echo "-it" || echo) --rm -v "$(CURRENT_DIR):/t" --workdir "$${DOCKER_PATH}" hashicorp/terraform:$(TF_VERSION) \
 			init \
-				-verify-plugins=true \
-				-lock=false \
 				-upgrade=true \
 				-reconfigure \
 				-input=false \
-				-get-plugins=true \
-				-get=true \
-				.; then \
+				-get=true; then \
 			echo "OK"; \
 		else \
 			echo "Failed"; \
