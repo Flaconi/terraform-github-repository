@@ -221,6 +221,31 @@ variable "default_branch_protection" {
   description = "Default branch protection settings."
 }
 
+variable "branch_protection" {
+  type = map(object({
+    enforce_admins                  = optional(bool)
+    allows_deletions                = optional(bool)
+    allows_force_pushes             = optional(bool)
+    require_signed_commits          = optional(bool)
+    required_linear_history         = optional(bool)
+    require_conversation_resolution = optional(bool)
+    push_restrictions               = optional(list(string))
+    required_status_checks = optional(object({
+      strict   = optional(bool)
+      contexts = optional(list(string))
+    }))
+    required_pull_request_reviews = optional(object({
+      dismiss_stale_reviews           = optional(bool)
+      restrict_dismissals             = optional(bool)
+      dismissal_restrictions          = optional(list(string))
+      require_code_owner_reviews      = optional(bool)
+      required_approving_review_count = optional(number)
+    }))
+  }))
+  default     = null # See defaults in locals.tf
+  description = "Branch protection settings. Use to set protection rules for branches different to default branch."
+}
+
 variable "issue_labels" {
   type = list(object({
     name        = string
