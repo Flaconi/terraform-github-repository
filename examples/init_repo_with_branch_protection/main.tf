@@ -30,7 +30,8 @@ module "example" {
 
   branch_protection = {
     develop = {
-      enforce_admins = true
+      enforce_admins          = true
+      required_status_enabled = false
     }
   }
 }

@@ -39,10 +39,12 @@ locals {
     required_linear_history         = false
     require_conversation_resolution = false
     push_restrictions               = []
+    required_status_enabled         = true
     required_status_checks = {
       strict   = true
       contexts = []
     }
+    required_pull_request_enabled = true
     required_pull_request_reviews = {
       dismiss_stale_reviews           = true
       restrict_dismissals             = false
@@ -79,10 +81,12 @@ locals {
         required_linear_history         = local.clean_default_branch_protection["required_linear_history"]
         require_conversation_resolution = local.clean_default_branch_protection["require_conversation_resolution"]
         push_restrictions               = local.clean_default_branch_protection["push_restrictions"]
+        required_status_enabled         = local.clean_default_branch_protection["required_status_enabled"]
         required_status_checks = {
           for k, v in local.clean_default_branch_protection["required_status_checks"] :
           k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
         }
+        required_pull_request_enabled = local.clean_default_branch_protection["required_pull_request_enabled"]
         required_pull_request_reviews = {
           for k, v in local.clean_default_branch_protection["required_pull_request_reviews"] :
           k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])
@@ -100,10 +104,12 @@ locals {
         required_linear_history         = local.clean_branch_protection[name]["required_linear_history"]
         require_conversation_resolution = local.clean_branch_protection[name]["require_conversation_resolution"]
         push_restrictions               = local.clean_branch_protection[name]["push_restrictions"]
+        required_status_enabled         = local.clean_branch_protection[name]["required_status_enabled"]
         required_status_checks = {
           for k, v in local.clean_branch_protection[name]["required_status_checks"] :
           k => (v != null ? v : local.branch_protection_defaults["required_status_checks"][k])
         }
+        required_pull_request_enabled = local.clean_branch_protection[name]["required_pull_request_enabled"]
         required_pull_request_reviews = {
           for k, v in local.clean_branch_protection[name]["required_pull_request_reviews"] :
           k => (v != null ? v : local.branch_protection_defaults["required_pull_request_reviews"][k])

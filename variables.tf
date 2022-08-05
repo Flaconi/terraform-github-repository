@@ -205,10 +205,12 @@ variable "default_branch_protection" {
     required_linear_history         = optional(bool)
     require_conversation_resolution = optional(bool)
     push_restrictions               = optional(list(string))
+    required_status_enabled         = optional(bool)
     required_status_checks = optional(object({
       strict   = optional(bool)
       contexts = optional(list(string))
     }))
+    required_pull_request_enabled = optional(bool)
     required_pull_request_reviews = optional(object({
       dismiss_stale_reviews           = optional(bool)
       restrict_dismissals             = optional(bool)
@@ -230,10 +232,12 @@ variable "branch_protection" {
     required_linear_history         = optional(bool)
     require_conversation_resolution = optional(bool)
     push_restrictions               = optional(list(string))
+    required_status_enabled         = optional(bool)
     required_status_checks = optional(object({
       strict   = optional(bool)
       contexts = optional(list(string))
     }))
+    required_pull_request_enabled = optional(bool)
     required_pull_request_reviews = optional(object({
       dismiss_stale_reviews           = optional(bool)
       restrict_dismissals             = optional(bool)

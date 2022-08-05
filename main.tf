@@ -115,17 +115,25 @@ resource "github_branch_protection" "this" {
   require_conversation_resolution = each.value["require_conversation_resolution"]
   push_restrictions               = each.value["push_restrictions"]
 
-  required_status_checks {
-    strict   = each.value["required_status_checks"]["strict"]
-    contexts = each.value["required_status_checks"]["contexts"]
+  dynamic "required_status_checks" {
+    for_each = each.value["required_status_enabled"] ? [each.value["required_status_checks"]] : []
+    iterator = checks
+    content {
+      strict   = checks.value["strict"]
+      contexts = checks.value["contexts"]
+    }
   }
 
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = each.value["required_pull_request_reviews"]["dismiss_stale_reviews"]
-    restrict_dismissals             = each.value["required_pull_request_reviews"]["restrict_dismissals"]
-    dismissal_restrictions          = each.value["required_pull_request_reviews"]["dismissal_restrictions"]
-    require_code_owner_reviews      = each.value["required_pull_request_reviews"]["require_code_owner_reviews"]
-    required_approving_review_count = each.value["required_pull_request_reviews"]["required_approving_review_count"]
+  dynamic "required_pull_request_reviews" {
+    for_each = each.value["required_pull_request_enabled"] ? [each.value["required_pull_request_reviews"]] : []
+    iterator = reviews
+    content {
+      dismiss_stale_reviews           = reviews.value["dismiss_stale_reviews"]
+      restrict_dismissals             = reviews.value["restrict_dismissals"]
+      dismissal_restrictions          = reviews.value["dismissal_restrictions"]
+      require_code_owner_reviews      = reviews.value["require_code_owner_reviews"]
+      required_approving_review_count = reviews.value["required_approving_review_count"]
+    }
   }
 }
 
