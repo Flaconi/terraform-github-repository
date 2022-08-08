@@ -147,6 +147,16 @@ resource "github_actions_secret" "this" {
   plaintext_value = sensitive(lookup(each.value, "plaintext_value", null))
 }
 
+resource "github_dependabot_secret" "this" {
+  for_each = var.secrets
+
+  repository = github_repository.this.name
+
+  secret_name     = each.key
+  encrypted_value = sensitive(lookup(each.value, "dependabot_encrypted_value", null))
+  plaintext_value = sensitive(lookup(each.value, "dependabot_plaintext_value", null))
+}
+
 resource "github_repository_deploy_key" "this" {
   for_each = local.deploy_keys
 

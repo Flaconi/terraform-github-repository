@@ -138,13 +138,13 @@ module "example_repo" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >= 4.19.2 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | >= 4.26.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | >= 4.19.2 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 4.26.1 |
 
 ## Modules
 
@@ -158,6 +158,7 @@ module "example_repo" {
 |------|------|
 | [github_actions_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch_protection.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
+| [github_dependabot_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
 | [github_issue_label.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/issue_label) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [github_repository_collaborator.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator) | resource |
@@ -213,6 +214,7 @@ module "example_repo" {
 
 | Name | Description |
 |------|-------------|
+| <a name="output_dependabot_secrets"></a> [dependabot\_secrets](#output\_dependabot\_secrets) | A map of dependabot secret names |
 | <a name="output_repository"></a> [repository](#output\_repository) | Created repository |
 | <a name="output_repository_branch_protection"></a> [repository\_branch\_protection](#output\_repository\_branch\_protection) | Default branch protection settings |
 | <a name="output_repository_secrets"></a> [repository\_secrets](#output\_repository\_secrets) | A map of create secret names |
