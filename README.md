@@ -138,13 +138,13 @@ module "example_repo" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >= 4.19.2 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | >= 4.26.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | >= 4.19.2 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 4.26.1 |
 
 ## Modules
 
@@ -158,6 +158,7 @@ module "example_repo" {
 |------|------|
 | [github_actions_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch_protection.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
+| [github_dependabot_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
 | [github_issue_label.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/issue_label) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [github_repository_collaborator.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator) | resource |
@@ -179,6 +180,7 @@ module "example_repo" {
 | <a name="input_archived"></a> [archived](#input\_archived) | Specifies if the repository should be archived. | `bool` | `false` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `policy` or `role`) | `list(string)` | `[]` | no |
 | <a name="input_auto_init"></a> [auto\_init](#input\_auto\_init) | Meaningful only during create; set  to `true` to produce an initial commit in the repository. | `bool` | `true` | no |
+| <a name="input_bot_secrets"></a> [bot\_secrets](#input\_bot\_secrets) | Repository dependabot secrets. | <pre>map(object({<br>    bot_encrypted_value = optional(string)<br>    bot_plaintext_value = optional(string)<br>  }))</pre> | `{}` | no |
 | <a name="input_branch_protection"></a> [branch\_protection](#input\_branch\_protection) | Branch protection settings. Use to set protection rules for branches different to default branch. | <pre>map(object({<br>    enforce_admins                  = optional(bool)<br>    allows_deletions                = optional(bool)<br>    allows_force_pushes             = optional(bool)<br>    require_signed_commits          = optional(bool)<br>    required_linear_history         = optional(bool)<br>    require_conversation_resolution = optional(bool)<br>    push_restrictions               = optional(list(string))<br>    required_status_enabled         = optional(bool)<br>    required_status_checks = optional(object({<br>      strict   = optional(bool)<br>      contexts = optional(list(string))<br>    }))<br>    required_pull_request_enabled = optional(bool)<br>    required_pull_request_reviews = optional(object({<br>      dismiss_stale_reviews           = optional(bool)<br>      restrict_dismissals             = optional(bool)<br>      dismissal_restrictions          = optional(list(string))<br>      require_code_owner_reviews      = optional(bool)<br>      required_approving_review_count = optional(number)<br>    }))<br>  }))</pre> | `null` | no |
 | <a name="input_collaborators"></a> [collaborators](#input\_collaborators) | Map of users with permissions. | `map(string)` | `{}` | no |
 | <a name="input_default_branch_protection"></a> [default\_branch\_protection](#input\_default\_branch\_protection) | Default branch protection settings. | <pre>object({<br>    enforce_admins                  = optional(bool)<br>    allows_deletions                = optional(bool)<br>    allows_force_pushes             = optional(bool)<br>    require_signed_commits          = optional(bool)<br>    required_linear_history         = optional(bool)<br>    require_conversation_resolution = optional(bool)<br>    push_restrictions               = optional(list(string))<br>    required_status_enabled         = optional(bool)<br>    required_status_checks = optional(object({<br>      strict   = optional(bool)<br>      contexts = optional(list(string))<br>    }))<br>    required_pull_request_enabled = optional(bool)<br>    required_pull_request_reviews = optional(object({<br>      dismiss_stale_reviews           = optional(bool)<br>      restrict_dismissals             = optional(bool)<br>      dismissal_restrictions          = optional(list(string))<br>      require_code_owner_reviews      = optional(bool)<br>      required_approving_review_count = optional(number)<br>    }))<br>  })</pre> | `{}` | no |
@@ -213,6 +215,7 @@ module "example_repo" {
 
 | Name | Description |
 |------|-------------|
+| <a name="output_dependabot_secrets"></a> [dependabot\_secrets](#output\_dependabot\_secrets) | A map of dependabot secret names |
 | <a name="output_repository"></a> [repository](#output\_repository) | Created repository |
 | <a name="output_repository_branch_protection"></a> [repository\_branch\_protection](#output\_repository\_branch\_protection) | Default branch protection settings |
 | <a name="output_repository_secrets"></a> [repository\_secrets](#output\_repository\_secrets) | A map of create secret names |

@@ -18,6 +18,16 @@ output "repository_secrets" {
   }
 }
 
+output "dependabot_secrets" {
+  description = "A map of dependabot secret names"
+  value = {
+    for name, secret in github_dependabot_secret.this : name => {
+      created = secret.created_at
+      updated = secret.updated_at
+    }
+  }
+}
+
 output "repository_webhook_urls" {
   description = "Webhook URLs"
   value       = { for k, v in github_repository_webhook.this : k => v.url }
