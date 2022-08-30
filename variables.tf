@@ -278,15 +278,15 @@ variable "secrets" {
 
 variable "bot_secrets" {
   type = map(object({
-    bot_encrypted_value = optional(string)
-    bot_plaintext_value = optional(string)
+    encrypted_value = optional(string)
+    plaintext_value = optional(string)
   }))
   default     = {}
   description = "Repository dependabot secrets."
 
   validation {
     condition = length(var.bot_secrets) > 0 ? alltrue([
-      for k, v in var.bot_secrets : (v["bot_encrypted_value"] == null || v["bot_plaintext_value"] == null)
+      for k, v in var.bot_secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
     ]) : true
     error_message = "Either dependabot encrypted or plaintext value should be set, but not both."
   }
