@@ -40,6 +40,11 @@ module "example" {
       reviewers = {
         users = [data.github_user.this.id]
       }
+      secrets = {
+        PLAIN_TEXT_SECRET = {
+          plaintext_value = "some_secret"
+        }
+      }
     },
     prod = {
       branch_policy = {

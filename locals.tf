@@ -35,9 +35,21 @@ locals {
       name          = name
       reviewers     = env["reviewers"]
       branch_policy = env["branch_policy"]
-      secrets       = env["secrets"]
     }
   }
+
+  environments_secrets = { for name, env in var.environments :
+    replace(lower(name), " ", "-") => env["secrets"] if env["secrets"] != null
+  }
+
+  rendered_environments_secrets = merge([for ename, secrets in local.environments_secrets :
+    { for sname, secret in secrets :
+      "${ename}:${sname}" => merge(secret, {
+        environment = ename
+        secret_name = sname
+      })
+    }
+  ]...)
 
   # These settings are default for branch protection
   branch_protection_defaults = {
@@ -64,7 +76,7 @@ locals {
   }
 
   # Combine defaults with input parameters
-  # TODO: refactor if `deepmerge` is implemented https://github.com/hashicorp/terraform/issues/24987
+  # TODO: refactor if `deepmerge` is implemented https://github.com/hashicorp/terraform/issues/31815
   # When you use `optional()` parameters all keys are defined and values are set to `null`.
   # In this case `lookup` all the time return `null` when you reference the key.
   # You have to use `if .. else` condition to sort it out.

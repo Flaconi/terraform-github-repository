@@ -193,6 +193,17 @@ resource "github_repository_environment" "this" {
   }
 }
 
+resource "github_actions_environment_secret" "this" {
+  for_each = local.rendered_environments_secrets
+
+  repository  = github_repository.this.name
+  environment = each.value["environment"]
+
+  secret_name     = each.value["secret_name"]
+  encrypted_value = sensitive(lookup(each.value, "encrypted_value", null))
+  plaintext_value = sensitive(lookup(each.value, "plaintext_value", null))
+}
+
 resource "github_repository_webhook" "this" {
   for_each = local.rendered_webhooks
 
