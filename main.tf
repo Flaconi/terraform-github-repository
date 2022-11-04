@@ -167,6 +167,32 @@ resource "github_repository_deploy_key" "this" {
   read_only = each.value["read_only"]
 }
 
+resource "github_repository_environment" "this" {
+  for_each = local.environments
+
+  repository  = github_repository.this.name
+  environment = each.value["name"]
+
+  dynamic "deployment_branch_policy" {
+    for_each = each.value["branch_policy"] != null ? { this = each.value["branch_policy"] } : {}
+
+    iterator = policy
+    content {
+      protected_branches     = policy.value["protected_branches"] != null ? policy.value["protected_branches"] : false
+      custom_branch_policies = policy.value["custom_branch_policies"] != null ? policy.value["custom_branch_policies"] : false
+    }
+  }
+
+  dynamic "reviewers" {
+    for_each = each.value["reviewers"] != null ? { this = each.value["reviewers"] } : {}
+
+    content {
+      teams = reviewers.value["teams"] != null ? reviewers.value["teams"] : []
+      users = reviewers.value["users"] != null ? reviewers.value["users"] : []
+    }
+  }
+}
+
 resource "github_repository_webhook" "this" {
   for_each = local.rendered_webhooks
 

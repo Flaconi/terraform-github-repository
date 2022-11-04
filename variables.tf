@@ -288,7 +288,7 @@ variable "bot_secrets" {
     condition = length(var.bot_secrets) > 0 ? alltrue([
       for k, v in var.bot_secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
     ]) : true
-    error_message = "Either dependabot encrypted or plaintext value should be set, but not both."
+    error_message = "Either encrypted or plaintext value should be set, but not both."
   }
 }
 
@@ -300,6 +300,34 @@ variable "deploy_keys" {
   }))
   default     = []
   description = "List of deploy keys configurations."
+}
+
+variable "environments" {
+  type = map(object({
+    reviewers = optional(object({
+      teams = optional(list(string))
+      users = optional(list(string))
+    }))
+    branch_policy = optional(object({
+      protected_branches     = optional(bool)
+      custom_branch_policies = optional(bool)
+    }))
+    secrets = optional(map(object({
+      encrypted_value = optional(string)
+      plaintext_value = optional(string)
+    })))
+  }))
+  default     = {}
+  description = "Repository environments."
+
+  validation {
+    condition = length(var.environments) > 0 ? alltrue(flatten([
+      for n, e in var.environments : [
+        for k, v in e.secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
+      ] if e.secrets != null
+    ])) : true
+    error_message = "Either encrypted or plaintext value should be set, but not both."
+  }
 }
 
 variable "topics" {

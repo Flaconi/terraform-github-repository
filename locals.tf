@@ -30,6 +30,15 @@ locals {
     }
   }
 
+  environments = { for name, env in var.environments :
+    replace(lower(name), " ", "-") => {
+      name          = name
+      reviewers     = env["reviewers"]
+      branch_policy = env["branch_policy"]
+      secrets       = env["secrets"]
+    }
+  }
+
   # These settings are default for branch protection
   branch_protection_defaults = {
     enforce_admins                  = true
