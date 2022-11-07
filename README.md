@@ -7,7 +7,7 @@
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 This Terraform module manages GitHub repositories. 
-Initially it was a backport from https://github.com/innovationnorway/terraform-github-repository which was written for 0.12 and as dynamic blocks were removed to be complied with 0.11 - this module will only allow branch protection for one branch, the default branch ( defaults to master ).
+Initially it was a backport from https://github.com/innovationnorway/terraform-github-repository which was written for `0.12` and as dynamic blocks were removed to be complied with `0.11`.
 
 ## Important notice
 
@@ -156,6 +156,7 @@ module "example_repo" {
 
 | Name | Type |
 |------|------|
+| [github_actions_environment_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
 | [github_actions_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch_protection.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
 | [github_dependabot_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/dependabot_secret) | resource |
@@ -163,6 +164,7 @@ module "example_repo" {
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
 | [github_repository_collaborator.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator) | resource |
 | [github_repository_deploy_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_deploy_key) | resource |
+| [github_repository_environment.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_environment) | resource |
 | [github_repository_webhook.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [github_team.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
@@ -189,6 +191,7 @@ module "example_repo" {
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `name`, `namespace`, `tenant`, etc. | `string` | `"-"` | no |
 | <a name="input_deploy_keys"></a> [deploy\_keys](#input\_deploy\_keys) | List of deploy keys configurations. | <pre>list(object({<br>    title     = string<br>    key       = string<br>    read_only = bool<br>  }))</pre> | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | A description of the repository. | `string` | `""` | no |
+| <a name="input_environments"></a> [environments](#input\_environments) | Repository environments. | <pre>map(object({<br>    reviewers = optional(object({<br>      teams = optional(list(string))<br>      users = optional(list(string))<br>    }))<br>    branch_policy = optional(object({<br>      protected_branches     = optional(bool)<br>      custom_branch_policies = optional(bool)<br>    }))<br>    secrets = optional(map(object({<br>      encrypted_value = optional(string)<br>      plaintext_value = optional(string)<br>    })))<br>  }))</pre> | `{}` | no |
 | <a name="input_gitignore_template"></a> [gitignore\_template](#input\_gitignore\_template) | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
 | <a name="input_has_downloads"></a> [has\_downloads](#input\_has\_downloads) | Set to `true` to enable the (deprecated) downloads features on the repository. | `bool` | `null` | no |
 | <a name="input_has_issues"></a> [has\_issues](#input\_has\_issues) | Set  to `false` to disable the GitHub Issues features on the repository. | `bool` | `true` | no |
