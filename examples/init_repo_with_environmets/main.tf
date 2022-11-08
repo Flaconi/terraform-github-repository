@@ -68,3 +68,11 @@ module "example" {
 output "repository" {
   value = module.example.repository
 }
+
+output "environments" {
+  value = module.example.environments
+}
+
+output "environments_secrets" {
+  value = module.example.environments_secrets
+}
