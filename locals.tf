@@ -38,13 +38,9 @@ locals {
     }
   }
 
-  environments_secrets = { for name, env in var.environments :
-    replace(lower(name), " ", "-") => env["secrets"] if env["secrets"] != null
-  }
-
-  rendered_environments_secrets = merge([for ename, secrets in local.environments_secrets :
-    { for sname, secret in secrets :
-      "${ename}:${sname}" => merge(secret, {
+  rendered_environments_secrets = merge([for ename, env in var.environments :
+    { for sname, secret in(env["secrets"] != null ? env["secrets"] : {}) :
+      "${replace(lower(ename), " ", "-")}:${sname}" => merge(secret, {
         environment = ename
         secret_name = sname
       })

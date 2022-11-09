@@ -28,6 +28,21 @@ output "dependabot_secrets" {
   }
 }
 
+output "environments" {
+  description = "A list of created environments"
+  value       = github_repository_environment.this
+}
+
+output "environments_secrets" {
+  description = "A map of environment secret names"
+  value = {
+    for name, secret in github_actions_environment_secret.this : name => {
+      created = secret.created_at
+      updated = secret.updated_at
+    }
+  }
+}
+
 output "repository_webhook_urls" {
   description = "Webhook URLs"
   value       = { for k, v in github_repository_webhook.this : k => v.url }

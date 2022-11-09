@@ -41,11 +41,22 @@ module "example" {
         users = [data.github_user.this.id]
       }
       secrets = {
+        TEST_SECRET = {},
         PLAIN_TEXT_SECRET = {
-          plaintext_value = "some_secret"
+          plaintext_value = sensitive("some_secret")
         }
       }
     },
+    test = {
+      secrets = {
+        ENCRYPTED_SECRET = {
+          # Value encrypted with organization public key
+          # Public key: https://docs.github.com/en/rest/reference/actions#get-an-organization-public-key
+          # Ecnryption: https://docs.github.com/en/rest/reference/actions#create-or-update-an-organization-secret
+          encrypted_value = "P1wD+Byzy0JvL77qILs1gLj1wpDIDYIKGcHJbuILlTq3lNLgxDQuHXLVYknj2nx6uaeNGx3AmgsO+Nak"
+        }
+      }
+    }
     prod = {
       branch_policy = {
         protected_branches = true
@@ -56,4 +67,12 @@ module "example" {
 
 output "repository" {
   value = module.example.repository
+}
+
+output "environments" {
+  value = module.example.environments
+}
+
+output "environments_secrets" {
+  value = module.example.environments_secrets
 }

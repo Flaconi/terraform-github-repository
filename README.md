@@ -219,6 +219,8 @@ module "example_repo" {
 | Name | Description |
 |------|-------------|
 | <a name="output_dependabot_secrets"></a> [dependabot\_secrets](#output\_dependabot\_secrets) | A map of dependabot secret names |
+| <a name="output_environments"></a> [environments](#output\_environments) | A list of created environments |
+| <a name="output_environments_secrets"></a> [environments\_secrets](#output\_environments\_secrets) | A map of environment secret names |
 | <a name="output_repository"></a> [repository](#output\_repository) | Created repository |
 | <a name="output_repository_branch_protection"></a> [repository\_branch\_protection](#output\_repository\_branch\_protection) | Default branch protection settings |
 | <a name="output_repository_secrets"></a> [repository\_secrets](#output\_repository\_secrets) | A map of create secret names |
