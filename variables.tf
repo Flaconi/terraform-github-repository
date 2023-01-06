@@ -190,6 +190,12 @@ variable "pages" {
   description = "The repository's GitHub Pages configuration."
 }
 
+variable "default_branch" {
+  type        = string
+  default     = "main"
+  description = "The repository's default branch. The branch should exist prio to apply."
+}
+
 variable "default_branch_protection_enabled" {
   type        = bool
   default     = true
