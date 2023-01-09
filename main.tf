@@ -71,6 +71,23 @@ resource "github_repository" "this" {
   }
 
   vulnerability_alerts = var.vulnerability_alerts
+
+  dynamic "security_and_analysis" {
+    for_each = var.visibility == "public" ? { this = local.public_settings } : {}
+    iterator = security
+
+    content {
+      advanced_security {
+        status = security.value["advanced_security"]
+      }
+      secret_scanning {
+        status = security.value["secret_scanning"]
+      }
+      secret_scanning_push_protection {
+        status = security.value["secret_scanning_push_protection"]
+      }
+    }
+  }
 }
 
 resource "github_team_repository" "this" {

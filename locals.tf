@@ -47,6 +47,13 @@ locals {
     }
   ]...)
 
+  # These settings are default for public repository
+  public_settings = {
+    advanced_security               = "enabled"
+    secret_scanning                 = "disabled"
+    secret_scanning_push_protection = "disabled"
+  }
+
   # These settings are default for branch protection
   branch_protection_defaults = {
     enforce_admins                  = true
