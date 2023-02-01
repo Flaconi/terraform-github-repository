@@ -87,6 +87,13 @@ resource "github_repository" "this" {
   }
 }
 
+resource "github_branch_default" "this" {
+  count = var.auto_init == true && var.archived != true ? 1 : 0
+
+  repository = github_repository.this.name
+  branch     = var.default_branch
+}
+
 resource "github_team_repository" "this" {
   for_each = local.team_ids
 
@@ -119,7 +126,7 @@ resource "github_branch_protection" "this" {
   for_each = local.rendered_branch_protection
 
   repository_id = github_repository.this.node_id
-  pattern       = each.key == "default" ? github_repository.this.default_branch : each.key
+  pattern       = each.key == "default" ? var.default_branch : each.key
 
   enforce_admins                  = each.value["enforce_admins"]
   allows_deletions                = each.value["allows_deletions"]
