@@ -88,7 +88,7 @@ resource "github_repository" "this" {
 }
 
 resource "github_branch_default" "this" {
-  count = var.auto_init == true ? 1 : 0
+  count = var.auto_init == true && var.archived != true ? 1 : 0
 
   repository = github_repository.this.name
   branch     = var.default_branch
