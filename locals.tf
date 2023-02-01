@@ -49,7 +49,6 @@ locals {
 
   # These settings are default for public repository
   public_settings = {
-    advanced_security               = "enabled"
     secret_scanning                 = "disabled"
     secret_scanning_push_protection = "disabled"
   }

@@ -77,9 +77,6 @@ resource "github_repository" "this" {
     iterator = security
 
     content {
-      advanced_security {
-        status = security.value["advanced_security"]
-      }
       secret_scanning {
         status = security.value["secret_scanning"]
       }
