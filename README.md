@@ -214,7 +214,7 @@ module "example_repo" {
 | <a name="input_use_fullname"></a> [use\_fullname](#input\_use\_fullname) | Set 'true' to use `namespace-tenant-name` for github repository name, else `name` | `bool` | `true` | no |
 | <a name="input_visibility"></a> [visibility](#input\_visibility) | Set to `public` to create a public (e.g. open source) repository. | `string` | `"private"` | no |
 | <a name="input_vulnerability_alerts"></a> [vulnerability\_alerts](#input\_vulnerability\_alerts) | Set to `true` to enable security alerts for vulnerable dependencies. Enabling requires alerts to be enabled on the owner level. | `bool` | `false` | no |
-| <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | List of webhook configurations. | <pre>list(object({<br>    ident  = string # some unique string to identify this webhook<br>    active = optional(bool)<br>    events = list(string)<br>    configuration = object({<br>      url          = string<br>      content_type = string<br>      secret       = optional(string)<br>      insecure_ssl = optional(bool)<br>    })<br>  }))</pre> | `[]` | no |
+| <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | List of webhook configurations. | <pre>list(object({<br>    ident  = string # some unique string to identify this webhook<br>    active = optional(bool, true)<br>    events = list(string)<br>    configuration = object({<br>      url          = string<br>      content_type = string<br>      secret       = optional(string)<br>      insecure_ssl = optional(bool, false)<br>    })<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
