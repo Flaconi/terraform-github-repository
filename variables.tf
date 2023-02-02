@@ -371,4 +371,11 @@ variable "webhooks" {
   }))
   default     = []
   description = "List of webhook configurations."
+
+  validation {
+    condition = length(var.webhooks) > 0 ? alltrue([
+      for w in var.webhooks : length(w["events"]) > 0
+    ]) : true
+    error_message = "You have to specify at least one trigger event for each webhook."
+  }
 }
