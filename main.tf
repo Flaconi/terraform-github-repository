@@ -199,8 +199,8 @@ resource "github_repository_environment" "this" {
 
     iterator = policy
     content {
-      protected_branches     = policy.value["protected_branches"] != null ? policy.value["protected_branches"] : false
-      custom_branch_policies = policy.value["custom_branch_policies"] != null ? policy.value["custom_branch_policies"] : false
+      protected_branches     = policy.value["protected_branches"]
+      custom_branch_policies = policy.value["custom_branch_policies"]
     }
   }
 
@@ -208,8 +208,8 @@ resource "github_repository_environment" "this" {
     for_each = each.value["reviewers"] != null ? { this = each.value["reviewers"] } : {}
 
     content {
-      teams = reviewers.value["teams"] != null ? reviewers.value["teams"] : []
-      users = reviewers.value["users"] != null ? reviewers.value["users"] : []
+      teams = reviewers.value["teams"]
+      users = reviewers.value["users"]
     }
   }
 }

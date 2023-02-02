@@ -311,12 +311,12 @@ variable "deploy_keys" {
 variable "environments" {
   type = map(object({
     reviewers = optional(object({
-      teams = optional(list(string))
-      users = optional(list(string))
+      teams = optional(list(string), [])
+      users = optional(list(string), [])
     }))
     branch_policy = optional(object({
-      protected_branches     = optional(bool)
-      custom_branch_policies = optional(bool)
+      protected_branches     = optional(bool, false)
+      custom_branch_policies = optional(bool, false)
     }))
     secrets = optional(map(object({
       encrypted_value = optional(string)
