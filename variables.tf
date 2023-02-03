@@ -204,55 +204,55 @@ variable "default_branch_protection_enabled" {
 
 variable "default_branch_protection" {
   type = object({
-    enforce_admins                  = optional(bool)
-    allows_deletions                = optional(bool)
-    allows_force_pushes             = optional(bool)
-    require_signed_commits          = optional(bool)
-    required_linear_history         = optional(bool)
-    require_conversation_resolution = optional(bool)
-    push_restrictions               = optional(list(string))
-    required_status_enabled         = optional(bool)
+    enforce_admins                  = optional(bool, true)
+    allows_deletions                = optional(bool, false)
+    allows_force_pushes             = optional(bool, false)
+    require_signed_commits          = optional(bool, true)
+    required_linear_history         = optional(bool, false)
+    require_conversation_resolution = optional(bool, false)
+    push_restrictions               = optional(list(string), [])
+    required_status_enabled         = optional(bool, true)
     required_status_checks = optional(object({
-      strict   = optional(bool)
-      contexts = optional(list(string))
-    }))
-    required_pull_request_enabled = optional(bool)
+      strict   = optional(bool, true)
+      contexts = optional(list(string), [])
+    }), {})
+    required_pull_request_enabled = optional(bool, true)
     required_pull_request_reviews = optional(object({
-      dismiss_stale_reviews           = optional(bool)
-      restrict_dismissals             = optional(bool)
-      dismissal_restrictions          = optional(list(string))
-      require_code_owner_reviews      = optional(bool)
-      required_approving_review_count = optional(number)
-    }))
+      dismiss_stale_reviews           = optional(bool, true)
+      restrict_dismissals             = optional(bool, false)
+      dismissal_restrictions          = optional(list(string), [])
+      require_code_owner_reviews      = optional(bool, true)
+      required_approving_review_count = optional(number, 1)
+    }), {})
   })
-  default     = {} # See defaults in locals.tf
+  default     = {}
   description = "Default branch protection settings."
 }
 
 variable "branch_protection" {
   type = map(object({
-    enforce_admins                  = optional(bool)
-    allows_deletions                = optional(bool)
-    allows_force_pushes             = optional(bool)
-    require_signed_commits          = optional(bool)
-    required_linear_history         = optional(bool)
-    require_conversation_resolution = optional(bool)
-    push_restrictions               = optional(list(string))
-    required_status_enabled         = optional(bool)
+    enforce_admins                  = optional(bool, true)
+    allows_deletions                = optional(bool, false)
+    allows_force_pushes             = optional(bool, false)
+    require_signed_commits          = optional(bool, true)
+    required_linear_history         = optional(bool, false)
+    require_conversation_resolution = optional(bool, false)
+    push_restrictions               = optional(list(string), [])
+    required_status_enabled         = optional(bool, true)
     required_status_checks = optional(object({
-      strict   = optional(bool)
-      contexts = optional(list(string))
-    }))
-    required_pull_request_enabled = optional(bool)
+      strict   = optional(bool, true)
+      contexts = optional(list(string), [])
+    }), {})
+    required_pull_request_enabled = optional(bool, true)
     required_pull_request_reviews = optional(object({
-      dismiss_stale_reviews           = optional(bool)
-      restrict_dismissals             = optional(bool)
-      dismissal_restrictions          = optional(list(string))
-      require_code_owner_reviews      = optional(bool)
-      required_approving_review_count = optional(number)
-    }))
+      dismiss_stale_reviews           = optional(bool, true)
+      restrict_dismissals             = optional(bool, false)
+      dismissal_restrictions          = optional(list(string), [])
+      require_code_owner_reviews      = optional(bool, true)
+      required_approving_review_count = optional(number, 1)
+    }), {})
   }))
-  default     = null # See defaults in locals.tf
+  default     = {}
   description = "Branch protection settings. Use to set protection rules for branches different to default branch."
 }
 
@@ -311,12 +311,12 @@ variable "deploy_keys" {
 variable "environments" {
   type = map(object({
     reviewers = optional(object({
-      teams = optional(list(string))
-      users = optional(list(string))
+      teams = optional(list(string), [])
+      users = optional(list(string), [])
     }))
     branch_policy = optional(object({
-      protected_branches     = optional(bool)
-      custom_branch_policies = optional(bool)
+      protected_branches     = optional(bool, false)
+      custom_branch_policies = optional(bool, false)
     }))
     secrets = optional(map(object({
       encrypted_value = optional(string)
@@ -360,15 +360,22 @@ variable "vulnerability_alerts" {
 variable "webhooks" {
   type = list(object({
     ident  = string # some unique string to identify this webhook
-    active = optional(bool)
+    active = optional(bool, true)
     events = list(string)
     configuration = object({
       url          = string
       content_type = string
       secret       = optional(string)
-      insecure_ssl = optional(bool)
+      insecure_ssl = optional(bool, false)
     })
   }))
   default     = []
   description = "List of webhook configurations."
+
+  validation {
+    condition = length(var.webhooks) > 0 ? alltrue([
+      for w in var.webhooks : length(w["events"]) > 0
+    ]) : true
+    error_message = "You have to specify at least one trigger event for each webhook."
+  }
 }
