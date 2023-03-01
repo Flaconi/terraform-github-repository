@@ -156,7 +156,7 @@ variable "actions_repository_access_level" {
     condition = var.actions_repository_access_level != null ? contains([
       "none", "user", "organization", "enterprise"
     ], var.actions_repository_access_level) : true
-    error_message = "Possible values are `none`, `user`, `organization`, or `enterprise`."
+    error_message = "Possible values are `none`, `user`, `organization` or `enterprise`."
   }
 }
 
