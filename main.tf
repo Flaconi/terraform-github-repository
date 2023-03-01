@@ -94,6 +94,13 @@ resource "github_branch_default" "this" {
   branch     = var.default_branch
 }
 
+resource "github_actions_repository_access_level" "test" {
+  count = var.visibility == "private" && var.actions_repository_access_level != null ? 1 : 0
+
+  repository   = github_repository.this.name
+  access_level = var.actions_repository_access_level
+}
+
 resource "github_team_repository" "this" {
   for_each = local.team_ids
 

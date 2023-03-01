@@ -48,6 +48,7 @@ module "clone" {
   }
 
   default_branch_protection_enabled = false
+  actions_repository_access_level   = "organization"
 }
 
 output "template" {

@@ -157,6 +157,7 @@ module "example_repo" {
 | Name | Type |
 |------|------|
 | [github_actions_environment_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_secret) | resource |
+| [github_actions_repository_access_level.test](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_repository_access_level) | resource |
 | [github_actions_secret.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_secret) | resource |
 | [github_branch_default.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_default) | resource |
 | [github_branch_protection.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch_protection) | resource |
@@ -175,6 +176,7 @@ module "example_repo" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | The name of the repository. | `string` | n/a | yes |
+| <a name="input_actions_repository_access_level"></a> [actions\_repository\_access\_level](#input\_actions\_repository\_access\_level) | This resource allows you to set the access level of a non-public repositories actions and reusable workflows for use in other repositories. | `string` | `null` | no |
 | <a name="input_allow_auto_merge"></a> [allow\_auto\_merge](#input\_allow\_auto\_merge) | Set to `true` to allow auto-merging pull requests on the repository. | `bool` | `false` | no |
 | <a name="input_allow_merge_commit"></a> [allow\_merge\_commit](#input\_allow\_merge\_commit) | Set  to `false` to disable merge commits on the repository. | `bool` | `false` | no |
 | <a name="input_allow_rebase_merge"></a> [allow\_rebase\_merge](#input\_allow\_rebase\_merge) | Set  to `false` to disable rebase merges on the repository. | `bool` | `false` | no |
