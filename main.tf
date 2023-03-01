@@ -94,7 +94,7 @@ resource "github_branch_default" "this" {
   branch     = var.default_branch
 }
 
-resource "github_actions_repository_access_level" "test" {
+resource "github_actions_repository_access_level" "this" {
   count = var.visibility == "private" && var.actions_repository_access_level != null ? 1 : 0
 
   repository   = github_repository.this.name
