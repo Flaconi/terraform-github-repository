@@ -147,6 +147,19 @@ variable "archive_on_destroy" {
   description = "Set to `true` to archive the repository instead of deleting on destroy."
 }
 
+variable "actions_repository_access_level" {
+  type        = string
+  default     = null
+  description = "This resource allows you to set the access level of a non-public repositories actions and reusable workflows for use in other repositories."
+
+  validation {
+    condition = var.actions_repository_access_level != null ? contains([
+      "none", "user", "organization", "enterprise"
+    ], var.actions_repository_access_level) : true
+    error_message = "Possible values are `none`, `user`, `organization` or `enterprise`."
+  }
+}
+
 variable "teams" {
   type = list(object({
     id         = optional(string)
