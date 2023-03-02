@@ -7,13 +7,6 @@
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 This Terraform module manages GitHub repositories. 
-Initially it was a backport from https://github.com/innovationnorway/terraform-github-repository which was written for `0.12` and as dynamic blocks were removed to be complied with `0.11`.
-
-## Important notice
-
-:warning: This module uses experimental optional attributes.
-
-More about it [here](https://www.terraform.io/language/expressions/type-constraints#experimental-optional-object-type-attributes).
 
 ## Example Usage
 
@@ -72,9 +65,9 @@ module "example_repo" {
     },
     {
       # Specify Team ID to use external data source
-      id        = data.github_team.developers.id
-      name      = "developers"
-      permisson = "push"
+      id         = data.github_team.developers.id
+      name       = "developers"
+      permission = "push"
     }
   ]
 }
