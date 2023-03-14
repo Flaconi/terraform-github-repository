@@ -105,6 +105,12 @@ variable "allow_rebase_merge" {
   description = "Set  to `false` to disable rebase merges on the repository."
 }
 
+variable "allow_update_branch" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to always suggest updating pull request branches."
+}
+
 variable "allow_auto_merge" {
   type        = bool
   default     = false
