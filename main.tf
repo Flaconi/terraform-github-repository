@@ -33,10 +33,11 @@ resource "github_repository" "this" {
 
   is_template = var.is_template
 
-  allow_merge_commit = var.allow_merge_commit
-  allow_squash_merge = var.allow_squash_merge
-  allow_rebase_merge = var.allow_rebase_merge
-  allow_auto_merge   = var.allow_auto_merge
+  allow_merge_commit  = var.allow_merge_commit
+  allow_squash_merge  = var.allow_squash_merge
+  allow_rebase_merge  = var.allow_rebase_merge
+  allow_update_branch = var.allow_update_branch
+  allow_auto_merge    = var.allow_auto_merge
 
   delete_branch_on_merge = var.delete_branch_on_merge
 
