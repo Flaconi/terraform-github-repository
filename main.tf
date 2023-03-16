@@ -39,6 +39,11 @@ resource "github_repository" "this" {
   allow_update_branch = var.allow_update_branch
   allow_auto_merge    = var.allow_auto_merge
 
+  squash_merge_commit_title   = var.squash_merge_commit_title
+  squash_merge_commit_message = var.squash_merge_commit_message
+  merge_commit_title          = var.merge_commit_title
+  merge_commit_message        = var.merge_commit_message
+
   delete_branch_on_merge = var.delete_branch_on_merge
 
   auto_init          = var.auto_init
