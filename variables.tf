@@ -117,6 +117,30 @@ variable "allow_auto_merge" {
   description = "Set to `true` to allow auto-merging pull requests on the repository."
 }
 
+variable "squash_merge_commit_title" {
+  type        = string
+  default     = "COMMIT_OR_PR_TITLE"
+  description = "Can be `PR_TITLE` or `COMMIT_OR_PR_TITLE` for a default squash merge commit title."
+}
+
+variable "squash_merge_commit_message" {
+  type        = string
+  default     = "COMMIT_MESSAGES"
+  description = "Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message."
+}
+
+variable "merge_commit_title" {
+  type        = string
+  default     = "MERGE_MESSAGE"
+  description = "Can be `PR_TITLE` or `MERGE_MESSAGE` for a default merge commit title."
+}
+
+variable "merge_commit_message" {
+  type        = string
+  default     = "PR_TITLE"
+  description = "Can be `PR_BODY`, `PR_TITLE`, or `BLANK` for a default merge commit message."
+}
+
 variable "delete_branch_on_merge" {
   type        = bool
   default     = true
