@@ -53,14 +53,14 @@ locals {
     secret_scanning_push_protection = "disabled"
   }
 
-  rendered_branch_protection = var.archived != true ? merge(
+  rendered_branch_protection = merge(
     # Branch protection rules for default branch
     var.default_branch_protection_enabled ? {
       default = var.default_branch_protection
     } : {},
     # Additional branch protection rules
     var.branch_protection
-  ) : {}
+  )
 
   # Combine defaults with input parameters
   rendered_webhooks = {
