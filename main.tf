@@ -167,6 +167,7 @@ resource "github_branch_protection" "this" {
       dismissal_restrictions          = reviews.value["dismissal_restrictions"]
       require_code_owner_reviews      = reviews.value["require_code_owner_reviews"]
       required_approving_review_count = reviews.value["required_approving_review_count"]
+      pull_request_bypassers          = reviews.value["pull_request_bypassers"]
     }
   }
 }
