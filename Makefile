@@ -5,13 +5,13 @@ TF_PROJECTS = "."
 # -------------------------------------------------------------------------------------------------
 # Terraform configuration
 # -------------------------------------------------------------------------------------------------
-TF_VERSION = 1.3.9
+TF_VERSION = 1.5.7
 
 
 # -------------------------------------------------------------------------------------------------
 # Terraform-docs configuration
 # -------------------------------------------------------------------------------------------------
-TFDOCS_VERSION = 0.16.0-0.31
+TFDOCS_VERSION = 0.16.0-0.34
 
 # Adjust your delimiter here or overwrite via make arguments
 TFDOCS_DELIM_START = <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
