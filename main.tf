@@ -147,7 +147,11 @@ resource "github_branch_protection" "this" {
   require_signed_commits          = each.value["require_signed_commits"]
   required_linear_history         = each.value["required_linear_history"]
   require_conversation_resolution = each.value["require_conversation_resolution"]
-  push_restrictions               = each.value["push_restrictions"]
+
+  restrict_pushes {
+    blocks_creations = each.value["restrict_pushes"]["blocks_creations"]
+    push_allowances  = each.value["restrict_pushes"]["push_allowances"]
+  }
 
   dynamic "required_status_checks" {
     for_each = each.value["required_status_enabled"] ? [each.value["required_status_checks"]] : []
