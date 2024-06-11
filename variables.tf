@@ -253,8 +253,11 @@ variable "default_branch_protection" {
     require_signed_commits          = optional(bool, true)
     required_linear_history         = optional(bool, false)
     require_conversation_resolution = optional(bool, false)
-    push_restrictions               = optional(list(string), [])
-    required_status_enabled         = optional(bool, true)
+    restrict_pushes = optional(object({
+      blocks_creations = optional(bool, false)
+      push_allowances  = optional(list(string), [])
+    }), {})
+    required_status_enabled = optional(bool, true)
     required_status_checks = optional(object({
       strict   = optional(bool, true)
       contexts = optional(list(string), [])
@@ -281,8 +284,11 @@ variable "branch_protection" {
     require_signed_commits          = optional(bool, true)
     required_linear_history         = optional(bool, false)
     require_conversation_resolution = optional(bool, false)
-    push_restrictions               = optional(list(string), [])
-    required_status_enabled         = optional(bool, true)
+    restrict_pushes = optional(object({
+      blocks_creations = optional(bool, false)
+      push_allowances  = optional(list(string), [])
+    }), {})
+    required_status_enabled = optional(bool, true)
     required_status_checks = optional(object({
       strict   = optional(bool, true)
       contexts = optional(list(string), [])
