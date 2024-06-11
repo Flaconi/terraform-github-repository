@@ -254,7 +254,7 @@ variable "default_branch_protection" {
     required_linear_history         = optional(bool, false)
     require_conversation_resolution = optional(bool, false)
     restrict_pushes = optional(object({
-      blocks_creations = optional(bool, true)
+      blocks_creations = optional(bool, false)
       push_allowances  = optional(list(string), [])
     }), {})
     required_status_enabled = optional(bool, true)
@@ -285,7 +285,7 @@ variable "branch_protection" {
     required_linear_history         = optional(bool, false)
     require_conversation_resolution = optional(bool, false)
     restrict_pushes = optional(object({
-      blocks_creations = optional(bool, true)
+      blocks_creations = optional(bool, false)
       push_allowances  = optional(list(string), [])
     }), {})
     required_status_enabled = optional(bool, true)

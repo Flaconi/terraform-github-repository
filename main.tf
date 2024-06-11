@@ -148,9 +148,12 @@ resource "github_branch_protection" "this" {
   required_linear_history         = each.value["required_linear_history"]
   require_conversation_resolution = each.value["require_conversation_resolution"]
 
-  restrict_pushes {
-    blocks_creations = each.value["restrict_pushes"]["blocks_creations"]
-    push_allowances  = each.value["restrict_pushes"]["push_allowances"]
+  dynamic "restrict_pushes" {
+    for_each = length(each.value["restrict_pushes"]["push_allowances"]) > 0 ? ["this"] : []
+    content {
+      blocks_creations = each.value["restrict_pushes"]["blocks_creations"]
+      push_allowances  = each.value["restrict_pushes"]["push_allowances"]
+    }
   }
 
   dynamic "required_status_checks" {
