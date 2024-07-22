@@ -245,6 +245,43 @@ variable "default_branch_protection_enabled" {
   description = "Set to `false` if you want to disable branch protection for default branch"
 }
 
+variable "rulesets" {
+  type = map(object({
+    required_linear_history = optional(bool, true)
+    deletion = optional(bool, true)
+    creation = optional(bool, true)
+    update = optional(bool, false)
+    target = optional(string, "branch")
+    enforcement = optional(string, "active")
+    includes = optional(list(string), ["~DEFAULT_BRANCH"])
+    excludes = optional(list(string), [])
+    non_fast_forward = optional(bool, true)
+    required_signatures = optional(bool, true)
+    bypass_actors = optional(map(object({
+      actor_id = number
+      actor_type = string
+      bypass_mode = optional(string, "always")
+    })), {})
+    pull_request = optional(object({
+      enabled = optional(bool, true)
+      dismiss_stale_reviews_on_push = optional(bool, true)
+      require_code_owner_review = optional(bool, true)
+      required_approving_review_count = optional(number, 1)
+      required_review_thread_resolution = optional(bool, true)
+      require_last_push_approval = optional(bool, true)
+    }), {})
+    required_status_checks = optional(object({
+      enabled = optional(bool, true)
+      strict_required_status_checks_policy = optional(bool, false)
+      contexts = optional(list(object({
+        integration_id = optional(number, 0)
+        context = string
+      })), [])
+    }))
+}))
+  default = {}
+}
+
 variable "default_branch_protection" {
   type = object({
     enforce_admins                  = optional(bool, true)

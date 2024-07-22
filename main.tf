@@ -261,3 +261,66 @@ resource "github_repository_webhook" "this" {
     insecure_ssl = each.value["configuration"]["insecure_ssl"]
   }
 }
+
+resource "github_repository_ruleset" "this" {
+  for_each = var.rulesets != null ? var.rulesets : {  }
+  name        = each.key
+  repository  = github_repository.this.name
+  target      = each.value.target
+  enforcement = each.value.enforcement
+
+  conditions {
+    ref_name {
+      include = each.value.includes
+      exclude = each.value.excludes
+    }
+  }
+
+  dynamic "bypass_actors" {
+    iterator = actors
+    for_each = each.value.bypass_actors
+    content {
+      actor_id = actors.value.actor_id
+      actor_type  = actors.value.actor_type
+      bypass_mode = actors.value.bypass_mode
+    }
+  }
+
+  rules {
+    creation                = each.value.creation
+    update                  = each.value.update
+    deletion                = each.value.deletion
+    non_fast_forward = each.value.non_fast_forward
+    required_linear_history = each.value.required_linear_history
+    required_signatures = each.value.required_signatures
+
+    dynamic "pull_request" {
+      for_each = each.value.pull_request.enabled ? [each.value.pull_request] : []
+      iterator = reviews
+      content {
+        dismiss_stale_reviews_on_push = reviews.value["dismiss_stale_reviews_on_push"]
+        require_code_owner_review = reviews.value["require_code_owner_review"]
+        required_approving_review_count = reviews.value["required_approving_review_count"]
+        required_review_thread_resolution = reviews.value["required_review_thread_resolution"]
+        require_last_push_approval = reviews.value["require_last_push_approval"]
+      }
+    }
+
+    dynamic "required_status_checks" {
+      for_each =  each.value.required_status_checks != null ? each.value.required_status_checks.enabled ? [each.value.required_status_checks] : [] : []
+      iterator = checks
+        content {
+
+          dynamic "required_check" {
+            for_each = checks.value.contexts
+            iterator = contexts
+            content {
+              context = contexts.value.context
+              integration_id = contexts.value.integration_id
+            }
+          }
+          strict_required_status_checks_policy = checks.value.strict_required_status_checks_policy
+        }
+    }
+  }
+}
