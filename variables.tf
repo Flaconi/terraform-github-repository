@@ -224,12 +224,17 @@ variable "collaborators" {
 
 variable "pages" {
   type = object({
-    source = object({
+    build_type = optional(string, "legacy")
+    source = optional(object({
       branch = string
       path   = string
-    })
+    }))
   })
-  default     = null
+  default = null
+  validation {
+    condition     = var.pages == null ? true : var.pages.build_type == "legacy" ? try(var.pages.source.branch, "") != "" && try(var.pages.source.path, "") != "" : true
+    error_message = "When build type is legacy for pages source branch and path are required."
+  }
   description = "The repository's GitHub Pages configuration."
 }
 

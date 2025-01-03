@@ -58,8 +58,9 @@ resource "github_repository" "this" {
   dynamic "pages" {
     for_each = var.pages != null ? { this = var.pages } : {}
     content {
+      build_type = pages.value["build_type"]
       dynamic "source" {
-        for_each = { this = pages.value["source"] }
+        for_each = pages.value["build_type"] == "legacy" ? { this = pages.value["source"] } : {}
         content {
           branch = source.value["branch"]
           path   = source.value["path"]
