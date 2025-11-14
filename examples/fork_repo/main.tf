@@ -31,7 +31,7 @@ module "origin" {
   default_branch_protection_enabled = false
 }
 
-# This will create `terraform-example-test-clone` repository using template `terraform-example-test-template`
+# This will create `terraform-example-test-fork` forked from `terraform-example-test-origin`
 module "fork" {
   source = "../../"
 
