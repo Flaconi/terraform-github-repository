@@ -77,6 +77,10 @@ resource "github_repository" "this" {
     }
   }
 
+  fork         = var.fork != null ? true : null
+  source_owner = var.fork != null ? var.fork["owner"] : null
+  source_repo  = var.fork != null ? var.fork["repository"] : null
+
   vulnerability_alerts = var.vulnerability_alerts
 
   dynamic "security_and_analysis" {
