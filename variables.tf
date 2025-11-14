@@ -444,6 +444,15 @@ variable "template" {
   description = "Use a template repository to create this repository."
 }
 
+variable "fork" {
+  type = object({
+    owner      = string
+    repository = string
+  })
+  default     = null
+  description = "Create a fork of another repository."
+}
+
 variable "vulnerability_alerts" {
   type        = bool
   default     = false
