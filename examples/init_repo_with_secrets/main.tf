@@ -50,7 +50,7 @@ module "example" {
     }
 
     BOT_ENCRYPTED_SECRET = {
-      # Value encrypted with organization public key
+      # Value encrypted with dependabot public key
       # Public key: https://docs.github.com/en/rest/dependabot/secrets?apiVersion=2026-03-10#get-a-repository-public-key
       # Encryption: https://docs.github.com/en/rest/guides/encrypting-secrets-for-the-rest-api?apiVersion=2026-03-10
       value_encrypted = "8PKNAUnl8H9DCY+GkAmDEEftmFi15K5DG1rldNrLMQ00ruBcBEoomD+Z8K8E1AyJu2nAfGmxfOksnrphoa1gow=="

@@ -62,7 +62,7 @@ locals {
   ])
 
   has_environment_encrypted_secrets = toset([for ename, env in var.environments :
-    ename if nonsensitive(anytrue([
+    replace(lower(ename), " ", "-") if nonsensitive(anytrue([
       for _, secret in(env["secrets"] != null ? env["secrets"] : {}) :
       (secret["value_encrypted"] != null)
     ]))
