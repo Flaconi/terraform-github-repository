@@ -41,19 +41,18 @@ module "example" {
         users = [data.github_user.this.id]
       }
       secrets = {
-        TEST_SECRET = {},
         PLAIN_TEXT_SECRET = {
-          plaintext_value = sensitive("some_secret")
+          value = sensitive("some_secret")
         }
       }
     },
     test = {
       secrets = {
         ENCRYPTED_SECRET = {
-          # Value encrypted with organization public key
-          # Public key: https://docs.github.com/en/rest/reference/actions#get-an-organization-public-key
-          # Ecnryption: https://docs.github.com/en/rest/reference/actions#create-or-update-an-organization-secret
-          encrypted_value = "P1wD+Byzy0JvL77qILs1gLj1wpDIDYIKGcHJbuILlTq3lNLgxDQuHXLVYknj2nx6uaeNGx3AmgsO+Nak"
+          # Value encrypted with environment public key
+          # Public key: https://docs.github.com/en/rest/actions/secrets?apiVersion=2026-03-10#get-an-environment-public-key
+          # Encryption: https://docs.github.com/en/rest/guides/encrypting-secrets-for-the-rest-api?apiVersion=2026-03-10
+          value_encrypted = "PkNAGcg+bWWDQn7YOLtmfsD9VrvOcTm2IZ1HogcjpDOmCzn9Z1AThxK21ZhrtNgZyvGmchQBACZFAdPEz759Wg=="
         }
       }
     }

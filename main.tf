@@ -192,8 +192,9 @@ resource "github_actions_secret" "this" {
   repository = github_repository.this.name
 
   secret_name     = each.key
-  encrypted_value = sensitive(lookup(each.value, "encrypted_value", null))
-  plaintext_value = sensitive(lookup(each.value, "plaintext_value", null))
+  value_encrypted = sensitive(lookup(each.value, "value_encrypted", null))
+  value           = sensitive(lookup(each.value, "value", null))
+  key_id          = each.value["value_encrypted"] != null ? data.github_actions_public_key.this[0].key_id : null
 }
 
 resource "github_dependabot_secret" "this" {
@@ -202,8 +203,9 @@ resource "github_dependabot_secret" "this" {
   repository = github_repository.this.name
 
   secret_name     = each.key
-  encrypted_value = sensitive(lookup(each.value, "encrypted_value", null))
-  plaintext_value = sensitive(lookup(each.value, "plaintext_value", null))
+  value_encrypted = sensitive(lookup(each.value, "value_encrypted", null))
+  value           = sensitive(lookup(each.value, "value", null))
+  key_id          = each.value["value_encrypted"] != null ? data.github_dependabot_public_key.this[0].key_id : null
 }
 
 resource "github_repository_deploy_key" "this" {
@@ -243,14 +245,15 @@ resource "github_repository_environment" "this" {
 }
 
 resource "github_actions_environment_secret" "this" {
-  for_each = local.rendered_environments_secrets
+  for_each = local.rendered_environments_secrets_names
 
   repository  = github_repository.this.name
   environment = each.value["environment"]
 
   secret_name     = each.value["secret_name"]
-  encrypted_value = sensitive(lookup(each.value, "encrypted_value", null))
-  plaintext_value = sensitive(lookup(each.value, "plaintext_value", null))
+  value_encrypted = lookup(local.rendered_environments_secrets[each.key], "value_encrypted", null)
+  value           = lookup(local.rendered_environments_secrets[each.key], "value", null)
+  key_id          = lookup(local.rendered_environments_secrets[each.key], "value_encrypted", null) != null ? data.github_actions_environment_public_key.this[each.value["environment"]].key_id : null
 }
 
 resource "github_repository_webhook" "this" {
