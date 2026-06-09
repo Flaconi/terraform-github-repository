@@ -363,7 +363,10 @@ variable "secrets" {
 
   validation {
     condition = length(var.secrets) > 0 ? alltrue([
-      for k, v in var.secrets : (v["value_encrypted"] == null || v["value"] == null)
+      for k, v in var.secrets : (
+        (v["value_encrypted"] != null && v["value"] == null) ||
+        (v["value_encrypted"] == null && v["value"] != null)
+      )
     ]) : true
     error_message = "Either value_encrypted or value should be set, but not both."
   }
@@ -419,7 +422,10 @@ variable "environments" {
   validation {
     condition = length(var.environments) > 0 ? alltrue(flatten([
       for n, e in var.environments : [
-        for k, v in e.secrets : (v["value_encrypted"] == null || v["value"] == null)
+        for k, v in e.secrets : (
+          (v["value_encrypted"] != null && v["value"] == null) ||
+          (v["value_encrypted"] == null && v["value"] != null)
+        )
       ] if e.secrets != null
     ])) : true
     error_message = "Either value_encrypted or value should be set, but not both."
