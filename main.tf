@@ -80,8 +80,6 @@ resource "github_repository" "this" {
   source_owner = var.fork != null ? var.fork["owner"] : null
   source_repo  = var.fork != null ? var.fork["repository"] : null
 
-  vulnerability_alerts = var.vulnerability_alerts
-
   dynamic "security_and_analysis" {
     for_each = var.visibility == "public" ? { this = local.public_settings } : {}
     iterator = security
@@ -95,6 +93,11 @@ resource "github_repository" "this" {
       }
     }
   }
+}
+
+resource "github_repository_vulnerability_alerts" "this" {
+  repository = github_repository.this.name
+  enabled    = var.vulnerability_alerts
 }
 
 resource "github_branch_default" "this" {
