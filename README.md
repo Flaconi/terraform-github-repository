@@ -164,6 +164,7 @@ module "example_repo" {
 | [github_repository_vulnerability_alerts.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_vulnerability_alerts) | resource |
 | [github_repository_webhook.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
+| [github_actions_environment_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_environment_public_key) | data source |
 | [github_actions_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_public_key) | data source |
 | [github_dependabot_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/dependabot_public_key) | data source |
 | [github_team.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
@@ -239,4 +240,4 @@ module "example_repo" {
 
 [MIT](LICENSE)
 
-Copyright (c) 2019-2022 [Flaconi GmbH](https://github.com/Flaconi)
+Copyright (c) 2019-2026 [Flaconi GmbH](https://github.com/Flaconi)

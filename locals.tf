@@ -38,22 +38,34 @@ locals {
     }
   }
 
-  rendered_environments_secrets = merge([for ename, env in var.environments :
-    { for sname, secret in(env["secrets"] != null ? env["secrets"] : {}) :
-      "${replace(lower(ename), " ", "-")}:${sname}" => merge(secret, {
+  rendered_environments_secrets_names = merge([for ename, env in var.environments :
+    { for sname in nonsensitive(env["secrets"] != null ? keys(env["secrets"]) : []) :
+      "${replace(lower(ename), " ", "-")}:${sname}" => {
         environment = ename
         secret_name = sname
-      })
+      }
     }
   ]...)
 
-  has_actions_encrypted_secrets = anytrue(concat(
-    [for _, secret in var.secrets : (secret["value_encrypted"] != null)],
-    [for _, secret in local.rendered_environments_secrets : (secret["value_encrypted"] != null)]
-  ))
+  rendered_environments_secrets = merge([for ename, env in var.environments :
+    { for sname, secrets in(env["secrets"] != null ? env["secrets"] : {}) :
+      nonsensitive("${replace(lower(ename), " ", "-")}:${sname}") => sensitive(env["secrets"][sname])
+    }
+  ]...)
+
+  has_actions_encrypted_secrets = anytrue([
+    for _, secret in var.secrets : (secret["value_encrypted"] != null)
+  ])
 
   has_dependabot_encrypted_secrets = anytrue([
     for _, secret in var.bot_secrets : (secret["value_encrypted"] != null)
+  ])
+
+  has_environment_encrypted_secrets = toset([for ename, env in var.environments :
+    ename if nonsensitive(anytrue([
+      for _, secret in(env["secrets"] != null ? env["secrets"] : {}) :
+      (secret["value_encrypted"] != null)
+    ]))
   ])
 
   # These settings are default for public repository
