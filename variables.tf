@@ -355,33 +355,33 @@ variable "issue_labels" {
 
 variable "secrets" {
   type = map(object({
-    encrypted_value = optional(string)
-    plaintext_value = optional(string)
+    value           = optional(string)
+    value_encrypted = optional(string)
   }))
   default     = {}
   description = "Repository secrets."
 
   validation {
     condition = length(var.secrets) > 0 ? alltrue([
-      for k, v in var.secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
+      for k, v in var.secrets : (v["value_encrypted"] == null || v["value"] == null)
     ]) : true
-    error_message = "Either encrypted or plaintext value should be set, but not both."
+    error_message = "Either value_encrypted or value should be set, but not both."
   }
 }
 
 variable "bot_secrets" {
   type = map(object({
-    encrypted_value = optional(string)
-    plaintext_value = optional(string)
+    value           = optional(string)
+    value_encrypted = optional(string)
   }))
   default     = {}
   description = "Repository dependabot secrets."
 
   validation {
     condition = length(var.bot_secrets) > 0 ? alltrue([
-      for k, v in var.bot_secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
+      for k, v in var.bot_secrets : (v["value_encrypted"] == null || v["value"] == null)
     ]) : true
-    error_message = "Either encrypted or plaintext value should be set, but not both."
+    error_message = "Either value_encrypted or value should be set, but not both."
   }
 }
 
@@ -406,8 +406,8 @@ variable "environments" {
       custom_branch_policies = optional(bool, false)
     }))
     secrets = optional(map(object({
-      encrypted_value = optional(string)
-      plaintext_value = optional(string)
+      value           = optional(string)
+      value_encrypted = optional(string)
     })))
   }))
   default     = {}
@@ -416,10 +416,10 @@ variable "environments" {
   validation {
     condition = length(var.environments) > 0 ? alltrue(flatten([
       for n, e in var.environments : [
-        for k, v in e.secrets : (v["encrypted_value"] == null || v["plaintext_value"] == null)
+        for k, v in e.secrets : (v["value_encrypted"] == null || v["value"] == null)
       ] if e.secrets != null
     ])) : true
-    error_message = "Either encrypted or plaintext value should be set, but not both."
+    error_message = "Either value_encrypted or value should be set, but not both."
   }
 }
 

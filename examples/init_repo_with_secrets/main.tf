@@ -32,31 +32,28 @@ module "example" {
   default_branch_protection_enabled = false
 
   secrets = {
-    TEST_SECRET = {},
     SOME_PLAIN_TEXT_SECRET = {
-      plaintext_value = "some_secret"
+      value = "some_secret"
     }
 
     ENCRYPTED_SECRET = {
-      # Value encrypted with organization public key
-      # Public key: https://docs.github.com/en/rest/reference/actions#get-an-organization-public-key
-      # Ecnryption: https://docs.github.com/en/rest/reference/actions#create-or-update-an-organization-secret
-      encrypted_value = "P1wD+Byzy0JvL77qILs1gLj1wpDIDYIKGcHJbuILlTq3lNLgxDQuHXLVYknj2nx6uaeNGx3AmgsO+Nak"
+      # Value encrypted with repository public key
+      # Public key: https://docs.github.com/en/rest/actions/secrets?apiVersion=2026-03-10#get-a-repository-public-key
+      # Encryption: https://docs.github.com/en/rest/guides/encrypting-secrets-for-the-rest-api?apiVersion=2026-03-10
+      value_encrypted = "OYbjqv3OlAKvVqWTMVGE9ZuEKmGU8+bHBV5g+ECpWh11bUEK+JEFNqZFmBFHzFVEtIeoluqy0T+odwl75zatww=="
     }
   }
 
   bot_secrets = {
-    BOT_TEST_SECRET = {},
-
     BOT_PLAIN_TEXT_SECRET = {
-      plaintext_value = "other_secret"
+      value = "other_secret"
     }
 
     BOT_ENCRYPTED_SECRET = {
       # Value encrypted with organization public key
-      # Public key: https://docs.github.com/en/rest/reference/actions#get-an-organization-public-key
-      # Ecnryption: https://docs.github.com/en/rest/reference/actions#create-or-update-an-organization-secret
-      encrypted_value = "P1wD+Byzy0JvL77qILs1gLj1wpDIDYIKGcHJbuILlTq3lNLgxDQuHXLVYknj2nx6uaeNGx3AmgsO+Nak"
+      # Public key: https://docs.github.com/en/rest/dependabot/secrets?apiVersion=2026-03-10#get-a-repository-public-key
+      # Encryption: https://docs.github.com/en/rest/guides/encrypting-secrets-for-the-rest-api?apiVersion=2026-03-10
+      value_encrypted = "8PKNAUnl8H9DCY+GkAmDEEftmFi15K5DG1rldNrLMQ00ruBcBEoomD+Z8K8E1AyJu2nAfGmxfOksnrphoa1gow=="
     }
   }
 }
