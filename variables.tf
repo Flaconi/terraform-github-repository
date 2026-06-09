@@ -379,9 +379,9 @@ variable "bot_secrets" {
 
   validation {
     condition = length(var.bot_secrets) > 0 ? alltrue([
-      for k, v in var.bot_secrets : (v["value_encrypted"] == null || v["value"] == null)
+      for k, v in var.bot_secrets : ((v["value_encrypted"] == null) != (v["value"] == null))
     ]) : true
-    error_message = "Either value_encrypted or value should be set, but not both."
+    error_message = "Exactly one of value_encrypted or value should be set."
   }
 }
 
