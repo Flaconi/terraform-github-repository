@@ -21,8 +21,6 @@ resource "github_team" "maintainers" {
   name        = "Repository Maintainers"
   description = "Maintainers for this repository"
   privacy     = "closed"
-
-  create_default_maintainer = true
 }
 
 # Note: You have to be an Owner of organization to destroy this resource
@@ -30,8 +28,6 @@ resource "github_team" "developers" {
   name        = "Repository Developers"
   description = "Developers for this repository"
   privacy     = "closed"
-
-  create_default_maintainer = false
 }
 
 # This will create `terraform-example-test-teams` repository
