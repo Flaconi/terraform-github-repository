@@ -49,8 +49,6 @@ resource "github_repository" "this" {
   gitignore_template = var.gitignore_template
   license_template   = var.license_template
 
-  topics = var.topics
-
   archived           = var.archived
   archive_on_destroy = var.archive_on_destroy
 
@@ -93,6 +91,13 @@ resource "github_repository" "this" {
       }
     }
   }
+}
+
+resource "github_repository_topics" "this" {
+  count = length(var.topics) > 0 ? 1 : 0
+
+  repository = github_repository.this.name
+  topics     = var.topics
 }
 
 resource "github_repository_vulnerability_alerts" "this" {
