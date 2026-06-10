@@ -368,7 +368,7 @@ variable "secrets" {
         (v["value_encrypted"] == null && v["value"] != null)
       )
     ]) : true
-    error_message = "Either value_encrypted or value should be set, but not both."
+    error_message = "Exactly one of value_encrypted or value should be set."
   }
 }
 
@@ -428,7 +428,7 @@ variable "environments" {
         )
       ] if e.secrets != null
     ])) : true
-    error_message = "Either value_encrypted or value should be set, but not both."
+    error_message = "Exactly one of value_encrypted or value should be set."
   }
 }
 
