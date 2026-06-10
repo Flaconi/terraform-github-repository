@@ -458,8 +458,8 @@ variable "fork" {
 
 variable "vulnerability_alerts" {
   type        = bool
-  default     = false
-  description = "Set to `true` to enable security alerts for vulnerable dependencies. Enabling requires alerts to be enabled on the owner level."
+  default     = null
+  description = "Set to `true` to enable or `false` to disable security alerts for vulnerable dependencies. Leave as `null` to avoid managing vulnerability alerts. Enabling requires alerts to be enabled on the owner level."
 }
 
 variable "webhooks" {
