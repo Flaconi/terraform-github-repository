@@ -52,20 +52,6 @@ resource "github_repository" "this" {
   archived           = var.archived
   archive_on_destroy = var.archive_on_destroy
 
-  dynamic "pages" {
-    for_each = var.pages != null ? { this = var.pages } : {}
-    content {
-      build_type = pages.value["build_type"]
-      dynamic "source" {
-        for_each = pages.value["build_type"] == "legacy" ? { this = pages.value["source"] } : {}
-        content {
-          branch = source.value["branch"]
-          path   = source.value["path"]
-        }
-      }
-    }
-  }
-
   dynamic "template" {
     for_each = var.template != null ? { this = var.template } : {}
     content {
@@ -89,6 +75,21 @@ resource "github_repository" "this" {
       secret_scanning_push_protection {
         status = security.value["secret_scanning_push_protection"]
       }
+    }
+  }
+}
+
+resource "github_repository_pages" "this" {
+  count = var.pages != null ? 1 : 0
+
+  repository = github_repository.this.name
+  build_type = var.pages.build_type == "github_actions" ? "workflow" : var.pages.build_type
+
+  dynamic "source" {
+    for_each = var.pages.build_type == "legacy" ? [var.pages.source] : []
+    content {
+      branch = source.value["branch"]
+      path   = source.value["path"]
     }
   }
 }
