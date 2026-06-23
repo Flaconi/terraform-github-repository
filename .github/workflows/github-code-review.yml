@@ -17,8 +17,22 @@ concurrency:
 
 jobs:
   code-review:
-    uses: Flaconi/github-actions/.github/workflows/github-code-review.yml@v1
-    secrets:
-      gh_token: ${{ secrets.REPO_READ_TOKEN }}
-      gh_copilot_token: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-      npm_token: ${{ secrets.NPM_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Checkout private actions repo
+        uses: actions/checkout@v7
+        with:
+          repository: Flaconi/github-actions
+          ref: v1
+          token: ${{ secrets.REPO_READ_TOKEN }}
+          path: .github/_flaconi/github-actions
+
+      - name: Run Flaconi Github Code Review
+        uses: ./.github/_flaconi/github-actions/.github/workflows/github-code-review.yml
+        with:
+          gh_token: ${{ secrets.REPO_READ_TOKEN }}
+          gh_copilot_token: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          npm_token: ${{ secrets.NPM_TOKEN }}
