@@ -62,6 +62,10 @@ module "example" {
       color       = "FFAA77"
       description = "This is custom label"
     },
+    {
+      name  = "WHITE"
+      color = "FFFFFF"
+    },
   ]
 
   allow_merge_commit = false
