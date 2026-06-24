@@ -347,7 +347,7 @@ variable "issue_labels" {
   type = list(object({
     name        = string
     color       = string
-    description = string
+    description = optional(string)
   }))
   default     = []
   description = "List of issue labels on the repository."
