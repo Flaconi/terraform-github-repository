@@ -27,12 +27,12 @@ jobs:
         with:
           repository: Flaconi/github-actions
           ref: v1
-          token: ${{ secrets.REPO_READ_TOKEN }}
+          token: ${{ secrets.AI_AGENT_REVIEW_TOKEN }}
           path: .github/_flaconi/github-actions
 
       - name: Run Flaconi Github Code Review
         uses: ./.github/_flaconi/github-actions/.github/workflows/github-code-review.yml
         with:
-          gh_token: ${{ secrets.REPO_READ_TOKEN }}
+          gh_token: ${{ secrets.AI_AGENT_REVIEW_TOKEN }}
           gh_copilot_token: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-          npm_token: ${{ secrets.NPM_TOKEN }}
+          npm_token: ${{ secrets.AI_AGENT_NPM_TOKEN }}
