@@ -350,7 +350,7 @@ variable "issue_labels" {
     description = optional(string)
   }))
   default     = []
-  description = "List of issue labels on the repository."
+  description = "List of issue labels on the repository. Label resource keys are normalized by replacing non-alphanumeric characters with hyphens for easier imports."
 }
 
 variable "secrets" {

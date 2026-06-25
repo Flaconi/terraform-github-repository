@@ -99,6 +99,10 @@ module "example_repo" {
 
 ### Add issue labels
 
+Issue label Terraform resource keys are normalized by replacing non-alphanumeric
+characters in the label name with hyphens. The GitHub label name itself is still
+created exactly as configured.
+
 ```hcl
 module "example_repo" {
   source  = "github.com/flaconi/terraform-github-repository.git?ref=master"
@@ -204,7 +208,7 @@ module "example_repo" {
 | <a name="input_has_wiki"></a> [has\_wiki](#input\_has\_wiki) | Set  to `true` to enable the GitHub Wiki features on the repository. | `bool` | `false` | no |
 | <a name="input_homepage_url"></a> [homepage\_url](#input\_homepage\_url) | URL of a page describing the project. | `string` | `""` | no |
 | <a name="input_is_template"></a> [is\_template](#input\_is\_template) | Set to `true` to tell GitHub that this is a template repository. | `bool` | `false` | no |
-| <a name="input_issue_labels"></a> [issue\_labels](#input\_issue\_labels) | List of issue labels on the repository. | <pre>list(object({<br/>    name        = string<br/>    color       = string<br/>    description = optional(string)<br/>  }))</pre> | `[]` | no |
+| <a name="input_issue_labels"></a> [issue\_labels](#input\_issue\_labels) | List of issue labels on the repository. Label resource keys are normalized by replacing non-alphanumeric characters with hyphens for easier imports. | <pre>list(object({<br/>    name        = string<br/>    color       = string<br/>    description = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_license_template"></a> [license\_template](#input\_license\_template) | Meaningful only during create, will be ignored after repository creation. Use the name of the template without the extension. For example, "Terraform". | `string` | `""` | no |
 | <a name="input_merge_commit_message"></a> [merge\_commit\_message](#input\_merge\_commit\_message) | Can be `PR_BODY`, `PR_TITLE`, or `BLANK` for a default merge commit message. | `string` | `"PR_TITLE"` | no |
 | <a name="input_merge_commit_title"></a> [merge\_commit\_title](#input\_merge\_commit\_title) | Can be `PR_TITLE` or `MERGE_MESSAGE` for a default merge commit title. | `string` | `"MERGE_MESSAGE"` | no |

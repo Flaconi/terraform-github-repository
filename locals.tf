@@ -15,7 +15,7 @@ locals {
   }
 
   labels = { for label in var.issue_labels :
-    replace(lower(label["name"]), " ", "-") => {
+    replace(lower(label["name"]), "/[^0-9a-z]+/", "-") => {
       name        = label["name"]
       color       = label["color"]
       description = label["description"]
