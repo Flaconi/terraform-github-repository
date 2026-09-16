@@ -57,6 +57,15 @@ variable "visibility" {
   description = "Set to `public` to create a public (e.g. open source) repository."
 }
 
+variable "security_and_analysis" {
+  type = object({
+    secret_scanning                 = optional(bool, false)
+    secret_scanning_push_protection = optional(bool, false)
+  })
+  default     = null
+  description = "Repository security and analysis settings. Leave as `null` to use the module defaults: disabled for public repositories and unmanaged for non-public repositories."
+}
+
 variable "has_issues" {
   type        = bool
   default     = true

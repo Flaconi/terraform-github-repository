@@ -65,15 +65,16 @@ resource "github_repository" "this" {
   source_repo  = var.fork != null ? var.fork["repository"] : null
 
   dynamic "security_and_analysis" {
-    for_each = var.visibility == "public" ? { this = local.public_settings } : {}
+    for_each = local.rendered_security_and_analysis != null ? { this = local.rendered_security_and_analysis } : {}
     iterator = security
 
     content {
       secret_scanning {
-        status = security.value["secret_scanning"]
+        status = security.value["secret_scanning"] ? "enabled" : "disabled"
       }
+
       secret_scanning_push_protection {
-        status = security.value["secret_scanning_push_protection"]
+        status = security.value["secret_scanning_push_protection"] ? "enabled" : "disabled"
       }
     }
   }
