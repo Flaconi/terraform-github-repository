@@ -68,11 +68,14 @@ locals {
     ]))
   ])
 
-  # These settings are default for public repository
-  public_settings = {
-    secret_scanning                 = "disabled"
-    secret_scanning_push_protection = "disabled"
-  }
+  # Preserve the existing public repository defaults while allowing
+  # explicit security settings for private and internal repositories.
+  rendered_security_and_analysis = var.security_and_analysis != null ? var.security_and_analysis : (
+    var.visibility == "public" ? {
+      secret_scanning                 = false
+      secret_scanning_push_protection = false
+    } : null
+  )
 
   rendered_branch_protection = merge(
     # Branch protection rules for default branch
