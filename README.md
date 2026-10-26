@@ -170,6 +170,7 @@ module "example_repo" {
 | [github_repository_vulnerability_alerts.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_vulnerability_alerts) | resource |
 | [github_repository_webhook.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
+| [github_workflow_repository_permissions.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/workflow_repository_permissions) | resource |
 | [github_actions_environment_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_environment_public_key) | data source |
 | [github_actions_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/actions_public_key) | data source |
 | [github_dependabot_public_key.this](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/dependabot_public_key) | data source |
@@ -228,6 +229,7 @@ module "example_repo" {
 | <a name="input_visibility"></a> [visibility](#input\_visibility) | Set to `public` to create a public (e.g. open source) repository. | `string` | `"private"` | no |
 | <a name="input_vulnerability_alerts"></a> [vulnerability\_alerts](#input\_vulnerability\_alerts) | Set to `true` to enable or `false` to disable security alerts for vulnerable dependencies. Leave as `null` to avoid managing vulnerability alerts. Enabling requires alerts to be enabled on the owner level. | `bool` | `null` | no |
 | <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | List of webhook configurations. | <pre>list(object({<br/>    ident  = string # some unique string to identify this webhook<br/>    active = optional(bool, true)<br/>    events = list(string)<br/>    configuration = object({<br/>      url          = string<br/>      content_type = string<br/>      secret       = optional(string)<br/>      insecure_ssl = optional(bool, false)<br/>    })<br/>  }))</pre> | `[]` | no |
+| <a name="input_workflow_permissions"></a> [workflow\_permissions](#input\_workflow\_permissions) | The default workflow permissions granted to the GITHUB\_TOKEN when running workflows in the repository, and whether GitHub Actions can approve pull requests. | <pre>object({<br/>    default_workflow_permissions     = optional(string, "read")<br/>    can_approve_pull_request_reviews = optional(bool, false)<br/>  })</pre> | `null` | no |
 
 ## Outputs
 

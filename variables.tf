@@ -193,6 +193,22 @@ variable "actions_repository_access_level" {
   }
 }
 
+variable "workflow_permissions" {
+  type = object({
+    default_workflow_permissions     = optional(string, "read")
+    can_approve_pull_request_reviews = optional(bool, false)
+  })
+  default     = null
+  description = "The default workflow permissions granted to the GITHUB_TOKEN when running workflows in the repository, and whether GitHub Actions can approve pull requests."
+
+  validation {
+    condition = var.workflow_permissions != null ? contains([
+      "read", "write"
+    ], var.workflow_permissions["default_workflow_permissions"]) : true
+    error_message = "Possible values for `default_workflow_permissions` are `read` or `write`."
+  }
+}
+
 variable "teams" {
   type = list(object({
     id         = optional(string)
