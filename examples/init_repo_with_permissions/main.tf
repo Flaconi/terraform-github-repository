@@ -74,6 +74,11 @@ module "example" {
 
   vulnerability_alerts = true
 
+  workflow_permissions = {
+    default_workflow_permissions     = "write"
+    can_approve_pull_request_reviews = true
+  }
+
   # Overwrite some settings for default branch
   default_branch_protection = {
     require_signed_commits = false

@@ -123,6 +123,15 @@ resource "github_actions_repository_access_level" "this" {
   access_level = var.actions_repository_access_level
 }
 
+resource "github_workflow_repository_permissions" "this" {
+  count = var.workflow_permissions != null ? 1 : 0
+
+  repository = github_repository.this.name
+
+  default_workflow_permissions     = var.workflow_permissions["default_workflow_permissions"]
+  can_approve_pull_request_reviews = var.workflow_permissions["can_approve_pull_request_reviews"]
+}
+
 resource "github_team_repository" "this" {
   for_each = local.team_ids
 
